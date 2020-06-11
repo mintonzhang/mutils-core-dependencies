@@ -1,0 +1,12 @@
+node_modules/
+.settings/
+.classpath
+.project
+target/
+.idea/
+*.imlakka/
+retrofitapi/
+dependency-reduced-pom.xml
+target
+*.iml
+*/.idea
