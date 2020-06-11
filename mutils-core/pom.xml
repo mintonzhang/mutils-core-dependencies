@@ -6,7 +6,7 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <artifactId>mutils-core-dependencies</artifactId>
-        <groupId>cn.minsin</groupId>
+        <groupId>cn.minsin.core</groupId>
         <version>1.0.0</version>
     </parent>
     <artifactId>mutils-core</artifactId>

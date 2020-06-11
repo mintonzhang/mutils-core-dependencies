@@ -7,7 +7,7 @@
     <version>1.0.0</version>
     <artifactId>mutils-core-dependencies</artifactId>
     <name>mutils-core-dependencies</name>
-    <groupId>cn.minsin</groupId>
+    <groupId>cn.minsin.core</groupId>
     <modules>
         <module>mutils-core</module>
         <module>mutils-core-web</module>
