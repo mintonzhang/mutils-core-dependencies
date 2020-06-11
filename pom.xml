@@ -5,8 +5,8 @@
     <packaging>pom</packaging>
     <modelVersion>4.0.0</modelVersion>
     <version>0.1.8.SNAPSHOT</version>
-    <artifactId>mutils-core-manage</artifactId>
-    <name>mutils-core-manage</name>
+    <artifactId>mutils-core-dependencies</artifactId>
+    <name>mutils-core-dependencies</name>
     <groupId>cn.minsin</groupId>
     <modules>
         <module>mutils-core</module>
@@ -45,7 +45,7 @@
     <licenses>
         <license>
             <name>The Apache Software License, Version 2.0</name>
-            <url>https://github.com/mintonzhang/mutils-spring-boot-starter/blob/master/LICENSE.txt</url>
+            <url>https://github.com/mintonzhang/mutils-spring-boot-starter/blob/master/LICENSE</url>
             <distribution>repo</distribution>
         </license>
     </licenses>
