@@ -1,13 +1,7 @@
 package cn.minsin.core.tools;
 
 import cn.minsin.core.exception.MutilsErrorException;
-import cn.minsin.core.override.JsonString;
-import lombok.Getter;
-import lombok.Setter;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -38,44 +32,85 @@ public class FileUtil {
         }
     }
 
+    public static boolean isFile(File file) {
+        return file != null && file.isFile();
+    }
+
+    public static boolean isDictionary(File file) {
+        return file != null && file.isDirectory();
+    }
+
+    public static boolean isNotFile(File file) {
+        return !isFile(file);
+    }
+
+    public static boolean isNotDictionary(File file) {
+        return !isDictionary(file);
+    }
+
+    public static boolean createDictionary(File file) {
+        return file.mkdirs();
+    }
+
+    public static boolean createFile(File file) throws IOException {
+        return file.createNewFile();
+    }
+
+    /**
+     * 创建文件或文件夹
+     *
+     * @param file
+     * @throws IOException
+     */
+    public static void createFileOrDictionary(File file) throws IOException {
+        boolean exists = file.exists();
+        if (!exists) {
+            boolean directory = file.isDirectory();
+            if (directory) {
+                createDictionary(file);
+            } else {
+                createFile(file);
+            }
+        }
+    }
+
     /**
      * 复制文件夹
      *
-     * @param f    源目录
-     * @param nf   目标目录
-     * @param flag 是否覆盖原文件夹 true代表把a文件夹整个复制过去，false只复制子文件夹及文件。
+     * @param source 源目录
+     * @param target 目标目录
+     * @param flag   是否覆盖原文件夹 true代表把a文件夹整个复制过去，false只复制子文件夹及文件。
      * @throws MutilsErrorException
      */
-    public static void copy(File f, File nf, boolean flag) throws MutilsErrorException {
+    public static boolean copy(File source, File target, boolean flag) {
         try {
             // 判断是否存在
-            if (f.exists()) {
+            if (source.exists()) {
                 // 判断是否是目录
-                if (f.isDirectory()) {
+                if (source.isDirectory()) {
                     if (flag) {
                         // 制定路径，以便原样输出
-                        nf = new File(nf + "/" + f.getName());
+                        target = new File(target + "/" + source.getName());
                         // 判断文件夹是否存在，不存在就创建
-                        if (!nf.exists()) {
-                            nf.mkdirs();
+                        if (!target.exists()) {
+                            target.mkdirs();
                         }
                     }
                     flag = true;
                     // 获取文件夹下所有的文件及子文件夹
-                    File[] l = f.listFiles();
+                    File[] l = source.listFiles();
                     // 判断是否为null
                     if (null != l) {
                         for (File ll : l) {
                             // 循环递归调用
-                            copy(ll, nf, flag);
+                            copy(ll, target, flag);
                         }
                     }
                 } else {
                     // 获取输入流
-                    FileInputStream fis = new FileInputStream(f);
+                    FileInputStream fis = new FileInputStream(source);
                     // 获取输出流
-                    FileOutputStream fos = new FileOutputStream(nf + "/" + f.getName());
-
+                    FileOutputStream fos = new FileOutputStream(target + "/" + source.getName());
                     int i;
                     byte[] b = new byte[1024];
                     // 读取文件
@@ -86,8 +121,9 @@ public class FileUtil {
                     IOUtil.close(fos, fis);
                 }
             }
+            return true;
         } catch (Exception e) {
-            throw new MutilsErrorException(e, "文件复制失败");
+            return false;
         }
     }
 
@@ -121,30 +157,6 @@ public class FileUtil {
         return deleteFile(new File(path));
     }
 
-    /**
-     * 获取图片文件流的宽高 如果没有获取到 将只会返回原文件流
-     *
-     * @param in 文件输入流
-     * @throws MutilsErrorException
-     */
-    public static FileModel readHeightAndWidth(InputStream in) throws MutilsErrorException {
-        try {
-            byte[] copyInputStream = IOUtil.copyInputStream(in);
-
-            FileModel fileModel = new FileModel();
-            fileModel.setInputStream(new ByteArrayInputStream(copyInputStream));
-            BufferedImage bi = ImageIO.read(new ByteArrayInputStream(copyInputStream));
-            if (bi != null) {
-                fileModel.setHeight(bi.getHeight());
-                fileModel.setWidth(bi.getWidth());
-                fileModel.setImage(true);
-            }
-            return fileModel;
-        } catch (Exception e) {
-            throw new MutilsErrorException(e, "Maybe,the inputstream is not an image or null.");
-        }
-
-    }
 
     /**
      * 保存文件流到临时文件
@@ -182,24 +194,13 @@ public class FileUtil {
         return tempFile;
     }
 
+    public static void main(String[] args) {
+        File file = new File("G://test11111111");
 
-    @Getter
-    @Setter
-    public static class FileModel implements JsonString {
+        File aaaa = new File(file, "aaaa.txt");
+        boolean directory = aaaa.isDirectory();
+        boolean file1 = aaaa.isFile();
 
-        /**
-         *
-         */
-        private static final long serialVersionUID = 719250036645822007L;
-
-        // 	宽 如果是图片才会返回
-        private int width;
-        // 	高 如果是图片才会返回
-        private int height;
-        //	文件输入流
-        private InputStream inputStream;
-        //	是否为图片
-        private boolean isImage = false;
-
+        System.out.println();
     }
 }

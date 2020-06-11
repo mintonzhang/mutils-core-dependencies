@@ -1,6 +1,6 @@
 package cn.minsin.core.web.table;
 
-import cn.minsin.core.tools.ModelUtil;
+import cn.minsin.core.tools.ReflectUtil;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -58,7 +58,7 @@ public class ActiveTable {
     }
 
     public ActiveTable add(Object model) {
-        Set<Field> allFieldsAndFilter = ModelUtil.getAllFieldsAndFilter(model);
+        Set<Field> allFieldsAndFilter = ReflectUtil.getFields(model.getClass(), true);
         for (Field field : allFieldsAndFilter) {
             try {
                 field.setAccessible(true);

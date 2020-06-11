@@ -1,5 +1,6 @@
 package cn.minsin.core.tools;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Collection;
@@ -61,7 +62,7 @@ public class StringUtil extends StringUtils {
      */
     public static String filterSearchKeyAndReplace(String str, String... filterKey) {
         str = filterSpace(str);
-        if (!ArrayUtil.isEmpty(filterKey)) {
+        if (ArrayUtils.isNotEmpty(filterKey)) {
             for (String string : filterKey) {
                 str = str.replace(string, "");
             }

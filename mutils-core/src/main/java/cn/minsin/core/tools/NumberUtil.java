@@ -5,7 +5,6 @@ import org.apache.commons.lang3.math.NumberUtils;
 
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 
 /**
  * 数值工具类  对{@link NumberUtils} 进行拓展
@@ -56,86 +55,6 @@ public class NumberUtil extends NumberUtils {
         }
     }
 
-    /**
-     * 保留指定小数长度的数据
-     */
-    public static BigDecimal decimalsXLength(int length, BigDecimal old) {
-        if (length < 0 || old == null) {
-            return old;
-        }
-        return old.setScale(length, RoundingMode.HALF_UP);
-    }
-
-    /**
-     * a+b and Keep 'decimal' decimals
-     *
-     * @param <T> must extend {@code Number}
-     */
-    public static <T extends Number> BigDecimal add(T a, T b, int decimal) {
-        if (a != null && b != null) {
-            return decimalsXLength(2, BigDecimal.valueOf(a.doubleValue()))
-                    .add(BigDecimal.valueOf(b.doubleValue()))
-                    .setScale(decimal,RoundingMode.DOWN);
-        }
-        return BigDecimal.valueOf(0);
-    }
-
-    /**
-     * like a-b and Keep 'decimal' decimals
-     *
-     * @param <T> must extend {@code Number}
-     */
-    public static <T extends Number> BigDecimal subtract(T a, T b, int decimal) {
-        if (a != null && b != null) {
-            return decimalsXLength(2, BigDecimal.valueOf(a.doubleValue()))
-                    .subtract(BigDecimal.valueOf(b.doubleValue()))
-                    .setScale(decimal,RoundingMode.DOWN);
-        }
-        return BigDecimal.valueOf(0);
-    }
-
-    /**
-     * a/b and Keep 'decimal' decimals
-     *
-     * @param <T> must extend {@code Number}
-     */
-    public static <T extends Number> BigDecimal divide(T a, T b, int decimal) {
-        if (a != null && b != null) {
-            return decimalsXLength(2, BigDecimal.valueOf(a.doubleValue()))
-                    .divide(BigDecimal.valueOf(b.doubleValue()), decimal, RoundingMode.HALF_UP)
-                    .setScale(decimal,RoundingMode.DOWN);
-        }
-        return BigDecimal.valueOf(0);
-    }
-
-    /**
-     * a*b and Keep 'decimal' decimals
-     *
-     * @param <T> must extend {@code Number}
-     */
-    public static <T extends Number> BigDecimal multiply(T a, T b, int decimal) {
-        if (a != null && b != null) {
-            return decimalsXLength(2, BigDecimal.valueOf(a.doubleValue()))
-                    .multiply(BigDecimal.valueOf(b.doubleValue()))
-                    .setScale(decimal,RoundingMode.DOWN);
-        }
-        return BigDecimal.valueOf(0);
-    }
-
-    /**
-     * a%b and Keep 'decimal' decimals
-     *
-     * @param <T> must extend {@code Number}
-     */
-    public static <T extends Number> BigDecimal remainder(T a, T b, int decimal) {
-        if (a != null && b != null) {
-            return decimalsXLength(2, BigDecimal.valueOf(a.doubleValue()))
-                    .remainder(BigDecimal.valueOf(b.doubleValue()))
-                    .setScale(decimal,RoundingMode.DOWN);
-        }
-        return BigDecimal.valueOf(0);
-    }
-
 
     //----------------------------------Split Line---------------------------------
 
@@ -154,7 +73,7 @@ public class NumberUtil extends NumberUtils {
     /**
      * 判断values是否包含input的值
      */
-    public static <N> boolean in(N input, N... values) {
+    public static <N extends BigDecimal> boolean in(N input, N... values) {
         if (input == null || values == null) {
             return false;
         }
@@ -169,14 +88,14 @@ public class NumberUtil extends NumberUtils {
     /**
      * 判断values是否包含input的值
      */
-    public static <N> boolean notIn(N input, N... values) {
+    public static <N extends BigDecimal> boolean notIn(N input, N... values) {
         return !in(input, values);
     }
 
     /**
      * 判断values等于input的值
      */
-    public static <N> boolean eq(N input, N values) {
+    public static <N extends BigDecimal> boolean eq(N input, N values) {
         if (input == null || values == null) {
             return false;
         }
@@ -186,7 +105,7 @@ public class NumberUtil extends NumberUtils {
     /**
      * 判断values不等于input的值
      */
-    public static <N> boolean ne(N input, N values) {
+    public static <N extends BigDecimal> boolean ne(N input, N values) {
         return !eq(input, values);
     }
 }

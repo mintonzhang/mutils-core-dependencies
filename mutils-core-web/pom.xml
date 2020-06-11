@@ -6,7 +6,7 @@
     <parent>
         <artifactId>mutils-core-dependencies</artifactId>
         <groupId>cn.minsin</groupId>
-        <version>0.1.8.SNAPSHOT</version>
+        <version>1.0.0</version>
     </parent>
     <artifactId>mutils-core-web</artifactId>
     <properties>
@@ -19,6 +19,7 @@
         <dependency>
             <groupId>cn.minsin</groupId>
             <artifactId>mutils-core</artifactId>
+            <version>${project.version}</version>
         </dependency>
         <!--JackSon中 常用的注解-->
         <dependency>

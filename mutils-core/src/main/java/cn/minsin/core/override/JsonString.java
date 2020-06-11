@@ -8,7 +8,7 @@ package cn.minsin.core.override;
  * @author: minton.zhang
  * @since: 2020/1/21 13:26
  */
-public interface JsonString extends FieldCheck {
+public interface JsonString {
     /**
      * 将当前对象转换成JSON字符串
      * 使用fastJSON中的{@link JSON#toJSONString(Object)} )}

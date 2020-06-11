@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <packaging>pom</packaging>
     <modelVersion>4.0.0</modelVersion>
-    <version>0.1.8.SNAPSHOT</version>
+    <version>1.0.0</version>
     <artifactId>mutils-core-dependencies</artifactId>
     <name>mutils-core-dependencies</name>
     <groupId>cn.minsin</groupId>
@@ -12,22 +12,6 @@
         <module>mutils-core</module>
         <module>mutils-core-web</module>
     </modules>
-
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>cn.minsin</groupId>
-                <artifactId>mutils-core</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>cn.minsin</groupId>
-                <artifactId>mutils-core-web</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-        </dependencies>
-
-    </dependencyManagement>
 
     <properties>
         <spring-boot.version>2.0.0.RELEASE</spring-boot.version>
@@ -40,7 +24,7 @@
         <maven-gpg-plugin.version>1.5</maven-gpg-plugin.version>
     </properties>
 
-    <description>A mini utils for java.</description>
+    <description>一款为java企业级开发的工具类.</description>
     <url>https://github.com/mintonzhang/mutils-spring-boot-starter</url>
     <licenses>
         <license>
@@ -126,20 +110,20 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-gpg-plugin</artifactId>
-                <version>${maven-gpg-plugin.version}</version>
-                <executions>
-                    <execution>
-                        <id>sign-artifacts</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>sign</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+            <!--            <plugin>-->
+            <!--                <groupId>org.apache.maven.plugins</groupId>-->
+            <!--                <artifactId>maven-gpg-plugin</artifactId>-->
+            <!--                <version>${maven-gpg-plugin.version}</version>-->
+            <!--                <executions>-->
+            <!--                    <execution>-->
+            <!--                        <id>sign-artifacts</id>-->
+            <!--                        <phase>verify</phase>-->
+            <!--                        <goals>-->
+            <!--                            <goal>sign</goal>-->
+            <!--                        </goals>-->
+            <!--                    </execution>-->
+            <!--                </executions>-->
+            <!--            </plugin>-->
             <plugin>
                 <groupId>org.sonatype.plugins</groupId>
                 <artifactId>nexus-staging-maven-plugin</artifactId>

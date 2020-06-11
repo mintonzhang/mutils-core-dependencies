@@ -6,8 +6,9 @@ import lombok.NonNull;
 import java.util.Objects;
 
 /**
- * C mean Condition
- * A mean Assert
+ * C mean condition
+ * A mean assert
+ *
  * @author: minton.zhang
  * @since: 2020/5/26 17:02
  */
@@ -18,11 +19,9 @@ public interface CA {
      * 设置全局默认异常 只需要设置一次，后面设置的会被把前面设置的覆盖掉
      * 默认 {@linkplain RuntimeException}
      */
-
     static void setDefaultException(@NonNull Class<? extends RuntimeException> defaultException) {
         Then.setDefaultException(defaultException);
     }
-
 
     /**
      * 是否不为空 一个不为空则返回true
