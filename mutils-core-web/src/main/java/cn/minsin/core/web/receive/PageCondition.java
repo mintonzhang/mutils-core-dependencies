@@ -4,7 +4,7 @@ import cn.minsin.core.web.override.ConvertToPage;
 import cn.minsin.core.web.override.InnerFunction;
 import com.sun.istack.internal.NotNull;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Getter;
+import lombok.Setter;
 import lombok.experimental.Accessors;
 
 import java.util.function.Function;
@@ -13,7 +13,7 @@ import java.util.function.Function;
  * @Author: minton.zhang
  * @Date: 2019/8/2 11:09
  */
-@Getter
+@Setter
 @Accessors(chain = true)
 public class PageCondition<T> implements ConvertToPage<T> {
 

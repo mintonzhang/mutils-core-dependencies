@@ -1,7 +1,5 @@
 package cn.minsin.core.tools;
 
-import cn.minsin.core.exception.MutilsErrorException;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -49,11 +47,19 @@ public class FileUtil {
     }
 
     public static boolean createDictionary(File file) {
-        return file.mkdirs();
+        boolean exists = file.exists();
+        if (!exists) {
+            return file.mkdirs();
+        }
+        return true;
     }
 
     public static boolean createFile(File file) throws IOException {
-        return file.createNewFile();
+        boolean exists = file.exists();
+        if (!exists) {
+            return file.createNewFile();
+        }
+        return true;
     }
 
     /**
@@ -77,33 +83,29 @@ public class FileUtil {
     /**
      * 复制文件夹
      *
-     * @param source 源目录
-     * @param target 目标目录
-     * @param flag   是否覆盖原文件夹 true代表把a文件夹整个复制过去，false只复制子文件夹及文件。
-     * @throws MutilsErrorException
+     * @param source   源目录
+     * @param target   目标目录
+     * @param fullCopy 是否覆盖原文件夹 true代表把a文件夹整个复制过去，false只复制子文件夹及文件。
      */
-    public static boolean copy(File source, File target, boolean flag) {
+    public static boolean copy(File source, File target, boolean fullCopy) {
         try {
             // 判断是否存在
             if (source.exists()) {
                 // 判断是否是目录
                 if (source.isDirectory()) {
-                    if (flag) {
+                    if (fullCopy) {
                         // 制定路径，以便原样输出
-                        target = new File(target + "/" + source.getName());
-                        // 判断文件夹是否存在，不存在就创建
-                        if (!target.exists()) {
-                            target.mkdirs();
-                        }
+                        target = new File(target, source.getName());
+                        createDictionary(target);
                     }
-                    flag = true;
+                    fullCopy = true;
                     // 获取文件夹下所有的文件及子文件夹
                     File[] l = source.listFiles();
                     // 判断是否为null
                     if (null != l) {
                         for (File ll : l) {
                             // 循环递归调用
-                            copy(ll, target, flag);
+                            copy(ll, target, fullCopy);
                         }
                     }
                 } else {
