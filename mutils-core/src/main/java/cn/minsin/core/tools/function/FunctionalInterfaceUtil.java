@@ -15,6 +15,7 @@ import java.util.stream.Stream;
 
 /**
  * 显示函数工具类
+ *
  * @author: minton.zhang
  * @since: 2020/5/19 20:23
  */
@@ -164,6 +165,15 @@ public interface FunctionalInterfaceUtil {
     }
 
     /**
+     * 如果不为空则执行函数
+     */
+    static <P1> void ifNotNullExecute(P1 param1, Consumer<P1> consumer) {
+        if (param1 != null) {
+            consumer.accept(param1);
+        }
+    }
+
+    /**
      * <pre>
      *     参数：
      *     1.入参为param1
@@ -226,10 +236,11 @@ public interface FunctionalInterfaceUtil {
     static <P1, P2, Return> Return conditionExecute(P1 param1, P2 param2, Function3<Boolean, P1, P2, Return> function) {
         return function.apply(param1 == null, param1, param2);
     }
-    
+
     /**
      * 条件执行
-     * @param param1 参数1
+     *
+     * @param param1   参数1
      * @param function 消费函数
      */
     static <P1> void conditionExecute(P1 param1, BiConsumer<Boolean, P1> function) {

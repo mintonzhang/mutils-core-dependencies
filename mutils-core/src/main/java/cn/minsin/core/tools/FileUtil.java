@@ -1,5 +1,8 @@
 package cn.minsin.core.tools;
 
+import cn.minsin.core.tools.function.FunctionalInterfaceUtil;
+import lombok.Cleanup;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -54,12 +57,12 @@ public class FileUtil {
         return true;
     }
 
-    public static boolean createFile(File file) throws IOException {
+    public static boolean createFile(File file, boolean isOverride) throws IOException {
         boolean exists = file.exists();
-        if (!exists) {
-            return file.createNewFile();
+        if (exists && isOverride) {
+            file.delete();
         }
-        return true;
+        return file.createNewFile();
     }
 
     /**
@@ -75,7 +78,7 @@ public class FileUtil {
             if (directory) {
                 createDictionary(file);
             } else {
-                createFile(file);
+                createFile(file, false);
             }
         }
     }
@@ -83,44 +86,25 @@ public class FileUtil {
     /**
      * 复制文件夹
      *
-     * @param source   源目录
-     * @param target   目标目录
-     * @param fullCopy 是否覆盖原文件夹 true代表把a文件夹整个复制过去，false只复制子文件夹及文件。
+     * @param source 源目录
+     * @param target 目标目录
      */
-    public static boolean copy(File source, File target, boolean fullCopy) {
+    public static boolean copy(File source, File target, boolean isOverride) {
         try {
-            // 判断是否存在
-            if (source.exists()) {
-                // 判断是否是目录
-                if (source.isDirectory()) {
-                    if (fullCopy) {
-                        // 制定路径，以便原样输出
-                        target = new File(target, source.getName());
-                        createDictionary(target);
+            if (!source.exists() || !target.exists()) {
+                return false;
+            }
+            File[] fileArray = source.listFiles();
+            if (fileArray != null && fileArray.length > 0) {
+                for (File src1 : fileArray) {
+                    File des1 = new File(target, src1.getName());
+                    if (src1.isDirectory()) {
+                        des1.mkdir();
+                        copy(src1, des1, isOverride);
+                    } else {
+                        createFile(des1, isOverride);
+                        transferFile(src1, des1, false);
                     }
-                    fullCopy = true;
-                    // 获取文件夹下所有的文件及子文件夹
-                    File[] l = source.listFiles();
-                    // 判断是否为null
-                    if (null != l) {
-                        for (File ll : l) {
-                            // 循环递归调用
-                            copy(ll, target, fullCopy);
-                        }
-                    }
-                } else {
-                    // 获取输入流
-                    FileInputStream fis = new FileInputStream(source);
-                    // 获取输出流
-                    FileOutputStream fos = new FileOutputStream(target + "/" + source.getName());
-                    int i;
-                    byte[] b = new byte[1024];
-                    // 读取文件
-                    while ((i = fis.read(b)) != -1) {
-                        // 写入文件，复制
-                        fos.write(b, 0, i);
-                    }
-                    IOUtil.close(fos, fis);
                 }
             }
             return true;
@@ -140,12 +124,16 @@ public class FileUtil {
         if (!dirFile.exists()) {
             return false;
         }
+
         if (dirFile.isFile()) {
             return dirFile.delete();
         } else {
-            for (File file : dirFile.listFiles()) {
-                deleteFile(file);
-            }
+            File[] files = dirFile.listFiles();
+            FunctionalInterfaceUtil.ifNotNullExecute(files, e -> {
+                for (File file : e) {
+                    deleteFile(file);
+                }
+            });
         }
         return dirFile.delete();
     }
@@ -196,13 +184,32 @@ public class FileUtil {
         return tempFile;
     }
 
-    public static void main(String[] args) {
-        File file = new File("G://test11111111");
+    /**
+     * source转换到target
+     *
+     * @param source
+     * @param target
+     */
+    public static void transferFile(File source, File target, boolean deleteSource) {
 
-        File aaaa = new File(file, "aaaa.txt");
-        boolean directory = aaaa.isDirectory();
-        boolean file1 = aaaa.isFile();
+        if (source.isFile() && target.isFile()) {
+            try {
+                @Cleanup
+                FileInputStream fis = new FileInputStream(source);
+                @Cleanup
+                FileOutputStream fos = new FileOutputStream(target);
+                byte[] bys = new byte[1024];
+                int len;
+                while ((len = fis.read(bys)) != -1) {
+                    fos.write(bys, 0, len);
+                }
+                if (deleteSource) {
+                    source.delete();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
 
-        System.out.println();
     }
 }

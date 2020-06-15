@@ -132,7 +132,6 @@ public class IOUtil extends IOUtils {
             byte[] bs = new byte[1024];
             // 读取到的数据长度
             int len;
-
             // 开始读取
             while ((len = src.read(bs)) != -1) {
                 dest.write(bs, 0, len);
