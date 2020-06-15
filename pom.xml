@@ -25,11 +25,11 @@
     </properties>
 
     <description>一款为java企业级开发的工具类.</description>
-    <url>https://github.com/mintonzhang/mutils-spring-boot-starter</url>
+    <url>https://github.com/mintonzhang/mutils-core-dependencies</url>
     <licenses>
         <license>
             <name>The Apache Software License, Version 2.0</name>
-            <url>https://github.com/mintonzhang/mutils-spring-boot-starter/blob/master/LICENSE</url>
+            <url>https://github.com/mintonzhang/mutils-core-dependencies/blob/master/LICENSE</url>
             <distribution>repo</distribution>
         </license>
     </licenses>
@@ -41,8 +41,8 @@
         </developer>
     </developers>
     <scm>
-        <url>https://github.com/mintonzhang/mutils-spring-boot-starter</url>
-        <connection>https://github.com/mintonzhang/mutils-spring-boot-starter.git</connection>
+        <url>https://github.com/mintonzhang/mutils-core-dependencies</url>
+        <connection>https://github.com/mintonzhang/mutils-core-dependencies.git</connection>
         <developerConnection>https://github.com/mintonzhang</developerConnection>
     </scm>
 
