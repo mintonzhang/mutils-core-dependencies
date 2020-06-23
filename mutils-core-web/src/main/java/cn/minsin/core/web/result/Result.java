@@ -108,15 +108,22 @@ public class Result<T> extends JsonModel implements Serializable {
      *
      * @param msg this default is '操作成功'
      */
-    public static <T> Result<T> ok(String... msg) {
-        return builder(DefaultResultOptions.SUCCESS, msg);
+    public static <T> Result<T> success(String... msg) {
+        return builder(DefaultResultOptions.DO_SUCCESS, msg);
     }
 
     /**
      * code 来自Result中的 SUCCESS 或 EXCEPTION
      */
-    public static <T> Result<T> ok(T data) {
-        return new Result<T>().setData(data).setResultOptions(DefaultResultOptions.SUCCESS);
+    public static <T> Result<T> success(T data) {
+        return new Result<T>().setData(data).setResultOptions(DefaultResultOptions.DO_SUCCESS);
+    }
+
+    /**
+     * code 来自Result中的 SUCCESS 或 EXCEPTION
+     */
+    public static <T> Result<T> notFind(T data) {
+        return new Result<T>().setData(data).setResultOptions(DefaultResultOptions.DO_SUCCESS);
     }
 
 
@@ -125,25 +132,17 @@ public class Result<T> extends JsonModel implements Serializable {
      */
     @SuppressWarnings({SuppressWarningsTypeConstant.UNCHECKED})
     public static <T> Result<T> emptyOk() {
-        return new Result<T>().setData((T) Collections.EMPTY_MAP).setResultOptions(DefaultResultOptions.SUCCESS);
+        return new Result<T>().setData((T) Collections.emptyList()).setResultOptions(DefaultResultOptions.DO_SUCCESS);
     }
 
-    /**
-     * code 来自Result中的 SUCCESS 或 EXCEPTION
-     *
-     * @param msg this default is '服务器异常'
-     */
-    public static <T> Result<T> exception(String... msg) {
-        return builder(DefaultResultOptions.EXCEPTION, msg);
-    }
 
     /**
      * 构建缺少参数的Result
      *
      * @param msg this default is '缺少必要参数'
      */
-    public static <T> Result<T> missParam(String... msg) {
-        return builder(DefaultResultOptions.MISS_PARAM, msg);
+    public static <T> Result<T> verifyFail(String... msg) {
+        return builder(DefaultResultOptions.VERIFY_FAILED, msg);
     }
 
     /**
@@ -152,7 +151,7 @@ public class Result<T> extends JsonModel implements Serializable {
      * @param msg this default is '操作失败'
      */
     public static <T> Result<T> fail(String... msg) {
-        return builder(DefaultResultOptions.FAIL, msg);
+        return builder(DefaultResultOptions.DO_FAILED, msg);
     }
 
     /**
@@ -160,8 +159,15 @@ public class Result<T> extends JsonModel implements Serializable {
      *
      * @param msg this default is '用户已失效'
      */
-    public static <T> Result<T> timeout(String... msg) {
-        return builder(DefaultResultOptions.OUT_TIME, msg);
+    public static <T> Result<T> unauthorized(String... msg) {
+        return builder(DefaultResultOptions.UNAUTHORIZED, msg);
+    }
+
+    /**
+     * 用户没有权限
+     */
+    public static <T> Result<T> forbidden(String... msg) {
+        return builder(DefaultResultOptions.UNAUTHORIZED, msg);
     }
 
     /**
@@ -181,9 +187,9 @@ public class Result<T> extends JsonModel implements Serializable {
      * @param typeOrId  操作类型或判断关键字段
      * @param isSuccess 操作是否成功
      */
-    public static <T> Result<T> optionalResult(boolean isSuccess, String typeOrId) {
+    public static <T> Result<T> autoDecide(boolean isSuccess, String typeOrId) {
         final String realOperationType = OperationStore.isOperationType(typeOrId) ? typeOrId : OperationType.AUTO_CHOOSE(typeOrId);
-        return builder(isSuccess ? DefaultResultOptions.SUCCESS : DefaultResultOptions.FAIL,
+        return builder(isSuccess ? DefaultResultOptions.DO_SUCCESS : DefaultResultOptions.DO_FAILED,
                 OperationType.isSuccess(realOperationType, isSuccess));
     }
 
@@ -193,8 +199,8 @@ public class Result<T> extends JsonModel implements Serializable {
      * @param e             异常
      * @param operationType 操作类型
      */
-    public static <T> Result<T> optionalResult(Throwable e, String operationType) {
-        return Result.exception(getMessage(e, OperationType.isSuccess(operationType, false)));
+    public static <T> Result<T> error(Throwable e, String operationType) {
+        return Result.error(getMessage(e, OperationType.isSuccess(operationType, false)));
     }
 
     protected static String getMessage(Throwable e, String defaultValue) {

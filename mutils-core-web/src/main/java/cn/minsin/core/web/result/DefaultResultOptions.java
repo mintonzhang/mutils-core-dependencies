@@ -4,37 +4,37 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 /**
+ * <pre>
+ *     code设计参考：
+ *     <a href="http://www.ruanyifeng.com/blog/2014/05/restful_api.html">第七点</a>
  * web返回对象必须实现ResultOptions
+ * </pre>
  *
  * @author mintonzhang
  */
 @Getter
 @RequiredArgsConstructor
 public enum DefaultResultOptions implements ResultOptions {
+
+    //包含 200  201 202  204
+    DO_SUCCESS(200, "操作成功"),
+
+    //操作失败 没有对数据库进行操作
+    DO_FAILED(400, "操作失败"),
+    //没有权限
+    FORBIDDEN(403, "对不起,您没有访问权限"),
+    //身份过期
+    UNAUTHORIZED(401, "您的身份已过期,请重新授权"),
+    //查询时没有查询到数据可以使用该状态
+    NOT_FIND(404, "您访问的资源不存在"),
+    //服务出现异常
+    ERROR(500, "系统开小差了，请稍后重试"),
+
     /**
-     * 服务器出现不可逆错误
+     * 参数验证失败
      */
-    ERROR(500, "服务器跑路了，请稍后重试"),
-    /**
-     * 服务器发生异常
-     */
-    EXCEPTION(404, "系统开小差了，请稍后重试"),
-    /**
-     * 操作成功
-     */
-    SUCCESS(200, "操作成功"),
-    /**
-     * 操作失败
-     */
-    FAIL(201, "操作失败"),
-    /**
-     * 用户信息失效
-     */
-    OUT_TIME(202, "您的身份过期了，请重新登录"),
-    /**
-     * 缺少参数
-     */
-    MISS_PARAM(203, "您好像少提交了参数");
+    VERIFY_FAILED(422, "参数验证失败");
+
 
     /**
      * 状态码
@@ -45,4 +45,5 @@ public enum DefaultResultOptions implements ResultOptions {
      * 提示消息
      */
     private final String msg;
+
 }

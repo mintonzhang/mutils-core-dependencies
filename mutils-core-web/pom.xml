@@ -13,6 +13,8 @@
         <swagger.version>1.5.24</swagger.version>
         <jackson.version>2.11.0</jackson.version>
         <servet.api.version>4.0.1</servet.api.version>
+        <spring.bean.version>5.2.7.RELEASE</spring.bean.version>
+        <javax.version>2.0.1.Final</javax.version>
     </properties>
 
     <dependencies>
@@ -41,6 +43,21 @@
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
             <version>${servet.api.version}</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.springframework/spring-beans -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>
+            <version>${spring.bean.version}</version>
+            <optional>true</optional>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/javax.validation/validation-api -->
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+            <version>${javax.version}</version>
+            <optional>true</optional>
         </dependency>
     </dependencies>
 </project>

@@ -52,7 +52,7 @@ public class MultiResult extends Result<Map<String, Object>> {
      * @param msg this default is '操作成功'
      */
     public static MultiResult ok(String... msg) {
-        return new MultiResult(DefaultResultOptions.SUCCESS, msg);
+        return new MultiResult(DefaultResultOptions.DO_SUCCESS, msg);
     }
 
     /**
@@ -61,6 +61,6 @@ public class MultiResult extends Result<Map<String, Object>> {
      * @param msg this default is '操作成功'
      */
     public static MultiResult fail(String... msg) {
-        return new MultiResult(DefaultResultOptions.FAIL, msg);
+        return new MultiResult(DefaultResultOptions.DO_FAILED, msg);
     }
 }
