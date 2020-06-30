@@ -1,21 +1,24 @@
-package cn.minsin.core.web.receive;
+package cn.minsin.core.web.form_request;
 
 import cn.minsin.core.web.override.ConvertToPage;
-import cn.minsin.core.web.override.InnerFunction;
 import com.sun.istack.internal.NotNull;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Setter;
-import lombok.experimental.Accessors;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.function.Function;
 
 /**
- * @Author: minton.zhang
- * @Date: 2019/8/2 11:09
+ * 分页请求模板对象
+ *
+ * @author: minton.zhang
+ * @since: 2020/4/28 16:51
  */
-@Setter
-@Accessors(chain = true)
-public class PageCondition<T> implements ConvertToPage<T> {
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+public class PageRequestTemplate<T> implements ConvertToPage<T> {
 
     /**
      * 默认开始页码
@@ -25,12 +28,14 @@ public class PageCondition<T> implements ConvertToPage<T> {
      * 默认每页显示的条数
      */
     private static Integer DEFAULT_SIZE = 10;
+
     @NotNull
     @ApiModelProperty("页码,从DEFAULT_PAGE计算")
-    private Integer page;
+    private int page;
+
     @NotNull
     @ApiModelProperty("每页记录数")
-    private Integer size;
+    private int size;
 
     /**
      * 设置全局默认条数和页码
@@ -43,31 +48,33 @@ public class PageCondition<T> implements ConvertToPage<T> {
         DEFAULT_SIZE = defaultSize;
     }
 
-    public Integer getPage() {
-        return page == null || page < DEFAULT_PAGE ? DEFAULT_PAGE : page;
+
+    public void setPage(Integer page) {
+        this.page = page == null || page < DEFAULT_PAGE ? DEFAULT_PAGE : page;
     }
 
-    public Integer getSize() {
-        return size == null || size < 1 ? DEFAULT_SIZE : size;
+    public void setSize(Integer size) {
+        this.size = size == null || size < 1 ? DEFAULT_SIZE : size;
     }
+
 
     /**
      * long类型的size
      */
     public long toLongSize() {
-        return this.getSize().longValue();
+        return this.getSize();
     }
 
     /**
      * long内息的page
      */
     public long toLongPage() {
-        return this.getPage().longValue();
+        return this.getPage();
     }
+
 
     @Override
     public <R> R convertToPage(Function<T, R> convertFunction) {
         return InnerFunction.apply(this, convertFunction);
     }
-
 }
