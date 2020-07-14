@@ -36,7 +36,7 @@ public class ChinaAreaUtil {
 
     private static String placeholder = "${code}";
 
-    private CloseableHttpClient client;
+    private final CloseableHttpClient client;
 
     private ChinaAreaUtil() {
         this.client = HttpClientUtil.getInstance();
@@ -51,7 +51,7 @@ public class ChinaAreaUtil {
      *
      * @throws MutilsErrorException
      */
-    public List<AreaModel> initProvince() throws MutilsErrorException {
+    protected List<AreaModel> initProvince() throws MutilsErrorException {
         HttpGet getMethod = HttpClientUtil.getGetMethod(remoteUrl + province.replace(placeholder, defaultProvinceCode));
         try (CloseableHttpResponse response = client.execute(getMethod)) {
             String jsonStr = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
@@ -69,7 +69,7 @@ public class ChinaAreaUtil {
      * @param provinceCode
      * @throws MutilsErrorException
      */
-    public List<AreaModel> initCity(String provinceCode) throws MutilsErrorException {
+    protected List<AreaModel> initCity(String provinceCode) throws MutilsErrorException {
         HttpGet getMethod = HttpClientUtil.getGetMethod(remoteUrl + city.replace(placeholder, provinceCode));
         try (CloseableHttpResponse response = client.execute(getMethod)) {
             String jsonStr = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
@@ -87,7 +87,7 @@ public class ChinaAreaUtil {
      * @param cityCode
      * @throws MutilsErrorException
      */
-    public List<AreaModel> initDistrict(String cityCode) throws MutilsErrorException {
+    protected List<AreaModel> initDistrict(String cityCode) throws MutilsErrorException {
         HttpGet getMethod = HttpClientUtil.getGetMethod(remoteUrl + district.replace(placeholder, cityCode));
         try (CloseableHttpResponse response = client.execute(getMethod)) {
             String jsonStr = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
@@ -127,4 +127,10 @@ public class ChinaAreaUtil {
         }
         return initProvince;
     }
+
+	public static void main(String[] args) throws MutilsErrorException {
+		List<AreaModel> areaModels = init().initProvinceWithChildren();
+
+		areaModels.forEach(System.out::println);
+	}
 }

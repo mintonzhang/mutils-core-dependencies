@@ -37,7 +37,7 @@ public class BigDecimalPlus extends Number implements Supplier<BigDecimal> {
         } else if (number instanceof Float) {
             return BigDecimal.valueOf((Float) number);
         } else if (number instanceof BigDecimalPlus) {
-            return ((BigDecimalPlus) number).getValue();
+            return ((BigDecimalPlus) number).get();
         } else {
             if (defaultValue == null) {
                 throw new UnsupportedOperationException();
