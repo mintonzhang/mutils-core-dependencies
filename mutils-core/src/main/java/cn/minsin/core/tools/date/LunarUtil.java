@@ -1,6 +1,6 @@
 package cn.minsin.core.tools.date;
 
-import cn.minsin.core.tools.ListUtil;
+import com.google.common.collect.Lists;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -279,7 +279,7 @@ public class LunarUtil {
 
     private static List<String> getHoliday(Date date, int[] l) {
         String date2String = DateUtil.date2String(date, () -> "MMdd");
-        List<String> list = ListUtil.newArrayList();
+        List<String> list = Lists.newArrayList();
         for (String string : holidays) {
             if (string.contains(date2String)) {
                 list.add(string.replace(date2String, ""));

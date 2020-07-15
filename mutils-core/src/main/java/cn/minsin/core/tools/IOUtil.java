@@ -1,6 +1,5 @@
 package cn.minsin.core.tools;
 
-import cn.minsin.core.exception.MutilsErrorException;
 import com.alibaba.fastjson.util.IOUtils;
 import lombok.NonNull;
 
@@ -58,24 +57,20 @@ public class IOUtil extends IOUtils {
         }
     }
 
-    /**
-     * 将文件流转成字节缓存在内存中，可以让流多次使用。使用{@link ByteArrayInputStream} 创建新的输入流
-     */
-    public static byte[] copyInputStream(InputStream in) throws MutilsErrorException {
-        try {
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            byte[] buffer = new byte[1024];
-            int len;
-            while ((len = in.read(buffer)) > -1) {
-                baos.write(buffer, 0, len);
-            }
-            baos.flush();
-            return baos.toByteArray();
-        } catch (Exception e) {
-            throw new MutilsErrorException(e, "Copy the inputStream failed.");
-        } finally {
-            close(in);
-        }
+	/**
+	 * 将文件流转成字节缓存在内存中，可以让流多次使用。使用{@link ByteArrayInputStream} 创建新的输入流
+	 */
+	public static byte[] readAllBytes(InputStream in) throws IOException {
+		try (InputStream inputStream = in) {
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			byte[] buffer = new byte[1024];
+			int len;
+			while ((len = inputStream.read(buffer)) > -1) {
+				baos.write(buffer, 0, len);
+			}
+			baos.flush();
+			return baos.toByteArray();
+		}
     }
 
     /**

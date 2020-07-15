@@ -2,10 +2,10 @@ package cn.minsin.core.tools.area;
 
 import cn.minsin.core.exception.MutilsErrorException;
 import cn.minsin.core.tools.HttpClientUtil;
-import cn.minsin.core.tools.ListUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -116,9 +116,9 @@ public class ChinaAreaUtil {
                             city.setChild(temp);
                         }
                     }
-                    if (ListUtil.isEmpty(city.getChildren())) {
-                        log.error("adcode为：{},name为{}，没有Children.", city.getAdcode(), city.getName());
-                    }
+	                if (CollectionUtils.isEmpty(city.getChildren())) {
+		                log.error("adcode为：{},name为{}，没有Children.", city.getAdcode(), city.getName());
+	                }
                 } catch (Exception e) {
                     log.error("adcode为：{},name为{}，丢失数据,已跳过.", city.getAdcode(), city.getName());
                 }
