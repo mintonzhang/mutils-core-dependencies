@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSON;
 import lombok.NonNull;
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.FormBody;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
@@ -174,6 +175,18 @@ public class OkHttpUtil {
 
 		static RequestBody empty() {
 			return okhttp3.internal.Util.EMPTY_REQUEST;
+		}
+
+		/**
+		 * 构建formData数据
+		 *
+		 * @param param
+		 * @return
+		 */
+		static RequestBody form(Map<String, String> param) {
+			FormBody.Builder builder = new FormBody.Builder();
+			param.forEach(builder::add);
+			return builder.build();
 		}
 
 		/**
