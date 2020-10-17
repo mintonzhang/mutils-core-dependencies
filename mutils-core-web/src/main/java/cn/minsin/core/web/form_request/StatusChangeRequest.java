@@ -7,18 +7,19 @@ import lombok.Setter;
 import java.io.Serializable;
 
 /**
- * 删除请求模板
+ * 状态请求模板
  *
  * @author: minton.zhang
  * @since: 2020/4/28 17:06
  */
 @Getter
 @Setter
-public class DeleteRequestTemplate<T extends Serializable> extends OneParamRequestTemplate<T> {
+public class StatusChangeRequest<ID_TYPE extends Serializable, STATUS_TYPE> extends DeleteRequest<ID_TYPE> {
 
     /**
-     * 备注 根据自己业务判断是否使用
+     * 状态使用的类型
      */
-    @ApiModelProperty("备注")
-    private String remark;
+    @ApiModelProperty("状态")
+    private STATUS_TYPE status;
+
 }

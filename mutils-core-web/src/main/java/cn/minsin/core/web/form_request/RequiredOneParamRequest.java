@@ -7,7 +7,7 @@ import java.io.Serializable;
  * @author: minton.zhang
  * @since: 2020/6/23 18:57
  */
-public class RequiredOneParamRequestForm<ID_TYPE extends Serializable> extends OneParamRequestTemplate<ID_TYPE> {
+public class RequiredOneParamRequest<ID_TYPE extends Serializable> extends OneParamRequest<ID_TYPE> {
 
     @NotNull
     public ID_TYPE getId() {

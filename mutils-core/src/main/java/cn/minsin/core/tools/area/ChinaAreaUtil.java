@@ -11,6 +11,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.util.EntityUtils;
 
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
@@ -51,15 +52,13 @@ public class ChinaAreaUtil {
      *
      * @throws MutilsErrorException
      */
-    protected List<AreaModel> initProvince() throws MutilsErrorException {
+    protected List<AreaModel> initProvince() throws  IOException {
         HttpGet getMethod = HttpClientUtil.getGetMethod(remoteUrl + province.replace(placeholder, defaultProvinceCode));
         try (CloseableHttpResponse response = client.execute(getMethod)) {
             String jsonStr = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
             JSONObject parseObject = JSON.parseObject(jsonStr);
             Object object = parseObject.get("rows");
             return JSON.parseArray(object.toString(), AreaModel.class);
-        } catch (Exception e) {
-            throw new MutilsErrorException(e);
         }
     }
 
@@ -69,15 +68,13 @@ public class ChinaAreaUtil {
      * @param provinceCode
      * @throws MutilsErrorException
      */
-    protected List<AreaModel> initCity(String provinceCode) throws MutilsErrorException {
+    protected List<AreaModel> initCity(String provinceCode) throws IOException {
         HttpGet getMethod = HttpClientUtil.getGetMethod(remoteUrl + city.replace(placeholder, provinceCode));
         try (CloseableHttpResponse response = client.execute(getMethod)) {
             String jsonStr = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
             JSONObject parseObject = JSON.parseObject(jsonStr);
             Object object = parseObject.get("rows");
             return JSON.parseArray(object.toString(), AreaModel.class);
-        } catch (Exception e) {
-            throw new MutilsErrorException(e);
         }
     }
 
@@ -87,15 +84,13 @@ public class ChinaAreaUtil {
      * @param cityCode
      * @throws MutilsErrorException
      */
-    protected List<AreaModel> initDistrict(String cityCode) throws MutilsErrorException {
+    protected List<AreaModel> initDistrict(String cityCode) throws IOException {
         HttpGet getMethod = HttpClientUtil.getGetMethod(remoteUrl + district.replace(placeholder, cityCode));
         try (CloseableHttpResponse response = client.execute(getMethod)) {
             String jsonStr = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
             JSONObject parseObject = JSON.parseObject(jsonStr);
             Object object = parseObject.get("rows");
             return JSON.parseArray(object.toString(), AreaModel.class);
-        } catch (Exception e) {
-            throw new MutilsErrorException(e);
         }
     }
 
@@ -104,7 +99,7 @@ public class ChinaAreaUtil {
      *
      * @throws MutilsErrorException
      */
-    public List<AreaModel> initProvinceWithChildren() throws MutilsErrorException {
+    public List<AreaModel> initProvinceWithChildren() throws IOException {
         List<AreaModel> initProvince = initProvince();
         for (AreaModel province : initProvince) {
             List<AreaModel> initCity = this.initCity(province.getAdcode());
@@ -128,7 +123,7 @@ public class ChinaAreaUtil {
         return initProvince;
     }
 
-	public static void main(String[] args) throws MutilsErrorException {
+	public static void main(String[] args) throws IOException {
 		List<AreaModel> areaModels = init().initProvinceWithChildren();
 
 		areaModels.forEach(System.out::println);

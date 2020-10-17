@@ -14,7 +14,7 @@ import java.io.Serializable;
  */
 @Getter
 @Setter
-public class OneParamRequestTemplate<T extends Serializable> {
+public class OneParamRequest<T extends Serializable> {
 
     /**
      * 唯一标识

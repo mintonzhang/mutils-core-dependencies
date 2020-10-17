@@ -14,7 +14,7 @@ import java.util.function.Function;
  */
 @Getter
 @Setter
-public class ListSearchRequestTemplate<R> extends PageRequestTemplate<R> implements ConvertToSearchCondition<R> {
+public class ListSearchRequest<R> extends PageRequestTemplate<R> implements ConvertToSearchCondition<R> {
 
     /**
      * 搜索结束时间

@@ -53,17 +53,4 @@ public class MutilsException extends RuntimeException {
             throw new MutilsException();
         }
     }
-
-
-    /**
-     * 为空时抛出异常
-     *
-     * @param object 对象
-     * @param message 为空时的提示消息
-     */
-    public static void notNull(Object object, String message) {
-        if (object == null) {
-            throw new MutilsException(message);
-        }
-    }
 }

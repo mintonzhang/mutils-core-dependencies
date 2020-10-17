@@ -15,7 +15,7 @@ import java.util.function.Function;
  */
 @Getter
 @Setter
-public class SaveRequestTemplate<T extends Serializable, P> extends OneParamRequestTemplate<T> implements ConvertTo<P> {
+public class SaveRequest<T extends Serializable, P> extends OneParamRequest<T> implements ConvertTo<P> {
 
 
     @Override

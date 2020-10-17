@@ -1,12 +1,12 @@
 package cn.minsin.core.web.form_request;
 
 import cn.minsin.core.web.override.ConvertToPage;
-import com.sun.istack.internal.NotNull;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotNull;
 import java.util.function.Function;
 
 /**
