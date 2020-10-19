@@ -1,6 +1,5 @@
 package cn.minsin.core.tools.area;
 
-import cn.minsin.core.exception.MutilsErrorException;
 import cn.minsin.core.tools.HttpClientUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -50,7 +49,6 @@ public class ChinaAreaUtil {
     /**
      * 获取省列表
      *
-     * @throws MutilsErrorException
      */
     protected List<AreaModel> initProvince() throws  IOException {
         HttpGet getMethod = HttpClientUtil.getGetMethod(remoteUrl + province.replace(placeholder, defaultProvinceCode));
@@ -66,7 +64,6 @@ public class ChinaAreaUtil {
      * 获取城市
      *
      * @param provinceCode
-     * @throws MutilsErrorException
      */
     protected List<AreaModel> initCity(String provinceCode) throws IOException {
         HttpGet getMethod = HttpClientUtil.getGetMethod(remoteUrl + city.replace(placeholder, provinceCode));
@@ -82,7 +79,6 @@ public class ChinaAreaUtil {
      * 获取县市区
      *
      * @param cityCode
-     * @throws MutilsErrorException
      */
     protected List<AreaModel> initDistrict(String cityCode) throws IOException {
         HttpGet getMethod = HttpClientUtil.getGetMethod(remoteUrl + district.replace(placeholder, cityCode));
