@@ -6,13 +6,10 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.io.FileNotFoundException;
 import java.lang.reflect.Constructor;
-import java.util.function.Consumer;
 
 /**
  * <pre>
- *     在{@linkplain CA#withException(String)}等默认抛出异常的方法中,
- *     当{@linkplain CA}的返回值为{@linkplain Boolean#TRUE} 时,则会抛出异常
- *     如果有特殊要求 可使用{@linkplain CA#with(Consumer)}进行手动处理
+ *     当判断条件返回为true时抛出异常
  * </pre>
  *
  * @author: minton.zhang
