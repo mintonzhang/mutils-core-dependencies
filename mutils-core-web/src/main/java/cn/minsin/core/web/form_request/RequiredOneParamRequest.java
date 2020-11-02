@@ -9,8 +9,9 @@ import java.io.Serializable;
  */
 public class RequiredOneParamRequest<ID_TYPE extends Serializable> extends OneParamRequest<ID_TYPE> {
 
-    @NotNull
-    public ID_TYPE getId() {
-        return super.getId();
-    }
+	@Override
+	@NotNull
+	public ID_TYPE getId() {
+		return super.getId();
+	}
 }

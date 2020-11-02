@@ -1,13 +1,11 @@
 package cn.minsin.core.web.form_request;
 
-import cn.minsin.core.web.override.ConvertToPage;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
-import java.util.function.Function;
 
 /**
  * 分页请求模板对象
@@ -18,18 +16,17 @@ import java.util.function.Function;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-public class PageRequestTemplate<T> implements ConvertToPage<T> {
+public class PageRequest {
+	/**
+	 * 默认开始页码
+	 */
+	private static Integer DEFAULT_PAGE = 1;
+	/**
+	 * 默认每页显示的条数
+	 */
+	private static Integer DEFAULT_SIZE = 10;
 
-    /**
-     * 默认开始页码
-     */
-    private static Integer DEFAULT_PAGE = 1;
-    /**
-     * 默认每页显示的条数
-     */
-    private static Integer DEFAULT_SIZE = 10;
-
-    @NotNull
+	@NotNull
     @ApiModelProperty("页码,从DEFAULT_PAGE计算")
     private int page;
 
@@ -72,9 +69,4 @@ public class PageRequestTemplate<T> implements ConvertToPage<T> {
         return this.getPage();
     }
 
-
-    @Override
-    public <R> R convertToPage(Function<T, R> convertFunction) {
-        return InnerFunction.apply(this, convertFunction);
-    }
 }
