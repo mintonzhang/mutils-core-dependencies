@@ -45,6 +45,16 @@ public abstract class CA {
 	}
 
 	/**
+	 * 如果condition是true,则抛出默认异常
+	 *
+	 * @param condition
+	 * @param msg
+	 */
+	public static void isTrue(boolean condition, String msg) {
+		withCustomException(condition, defaultException, msg);
+	}
+
+	/**
 	 * 如果obejct是null,则抛出默认异常
 	 *
 	 * @param object
@@ -63,7 +73,6 @@ public abstract class CA {
 	public static void isNull(Object object, String msg, Class<? extends RuntimeException> clazz) {
 		if (StringUtil.isBlank(object)) {
 			createInstance(clazz, msg);
-
 		}
 	}
 
