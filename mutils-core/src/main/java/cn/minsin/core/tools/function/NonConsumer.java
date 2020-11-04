@@ -1,4 +1,4 @@
-package cn.minsin.core.override;
+package cn.minsin.core.tools.function;
 
 /**
  * @author: minton.zhang
