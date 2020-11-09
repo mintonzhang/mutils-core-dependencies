@@ -220,8 +220,6 @@ public class Result<T> extends JsonModel implements Serializable {
 
 	/**
 	 * 使用response输出JSON
-	 *
-	 * @param response
 	 */
 	public static void writeToResponseWithJson(HttpServletResponse response, Result<?> obj) {
 		response.setStatus(HttpStatus.OK.value());
