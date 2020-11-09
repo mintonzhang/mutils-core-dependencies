@@ -3,12 +3,17 @@ package cn.minsin.core.web.result;
 import cn.minsin.core.constant.SuppressWarningsTypeConstant;
 import cn.minsin.core.exception.MutilsException;
 import cn.minsin.core.override.JsonModel;
+import com.alibaba.fastjson.JSON;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.PrintWriter;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.HashMap;
@@ -28,6 +33,7 @@ import java.util.function.Consumer;
 @Accessors(chain = true)
 @ToString
 @NoArgsConstructor
+@Slf4j
 public class Result<T> extends JsonModel implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -203,15 +209,31 @@ public class Result<T> extends JsonModel implements Serializable {
         return Result.error(getMessage(e, OperationType.isSuccess(operationType, false)));
     }
 
-    protected static String getMessage(Throwable e, String defaultValue) {
-        boolean b = e instanceof MutilsException;
-        if (b) {
-            String message = e.getMessage();
-            return message == null ? defaultValue : defaultValue.concat(",").concat(message);
-        }
-        return defaultValue;
-    }
+	protected static String getMessage(Throwable e, String defaultValue) {
+		boolean b = e instanceof MutilsException;
+		if (b) {
+			String message = e.getMessage();
+			return message == null ? defaultValue : defaultValue.concat(",").concat(message);
+		}
+		return defaultValue;
+	}
 
-    //********************************分割线****************************************//
+	/**
+	 * 使用response输出JSON
+	 *
+	 * @param response
+	 */
+	public static void writeToResponseWithJson(HttpServletResponse response, Result<?> obj) {
+		response.setStatus(HttpStatus.OK.value());
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("application/json;charset=UTF-8");
+		try (PrintWriter writer = response.getWriter()) {
+			writer.println(JSON.toJSONString(obj));
+		} catch (Exception e) {
+			log.error("输出JSON出错", e);
+		}
+	}
+
+	//********************************分割线****************************************//
 
 }
