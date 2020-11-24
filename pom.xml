@@ -46,14 +46,15 @@
         <developerConnection>https://github.com/mintonzhang</developerConnection>
     </scm>
 
+
     <distributionManagement>
         <snapshotRepository>
-            <id>oss</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+            <id>rdc-snapshots</id>
+            <url>https://packages.aliyun.com/maven/repository/2050198-snapshot-bZJLDy</url>
         </snapshotRepository>
         <repository>
-            <id>oss</id>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+            <id>rdc-releases</id>
+            <url>https://packages.aliyun.com/maven/repository/2050198-release-86atb0</url>
         </repository>
     </distributionManagement>
     <build>
@@ -110,31 +111,31 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-gpg-plugin</artifactId>
-                <version>${maven-gpg-plugin.version}</version>
-                <executions>
-                    <execution>
-                        <id>sign-artifacts</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>sign</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.sonatype.plugins</groupId>
-                <artifactId>nexus-staging-maven-plugin</artifactId>
-                <version>${nexus-staging-maven-plugin.version}</version>
-                <extensions>true</extensions>
-                <configuration>
-                    <serverId>oss</serverId>
-                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
-                </configuration>
-            </plugin>
+            <!--            <plugin>-->
+            <!--                <groupId>org.apache.maven.plugins</groupId>-->
+            <!--                <artifactId>maven-gpg-plugin</artifactId>-->
+            <!--                <version>${maven-gpg-plugin.version}</version>-->
+            <!--                <executions>-->
+            <!--                    <execution>-->
+            <!--                        <id>sign-artifacts</id>-->
+            <!--                        <phase>verify</phase>-->
+            <!--                        <goals>-->
+            <!--                            <goal>sign</goal>-->
+            <!--                        </goals>-->
+            <!--                    </execution>-->
+            <!--                </executions>-->
+            <!--            </plugin>-->
+            <!--            <plugin>-->
+            <!--                <groupId>org.sonatype.plugins</groupId>-->
+            <!--                <artifactId>nexus-staging-maven-plugin</artifactId>-->
+            <!--                <version>${nexus-staging-maven-plugin.version}</version>-->
+            <!--                <extensions>true</extensions>-->
+            <!--                <configuration>-->
+            <!--                    <serverId>oss</serverId>-->
+            <!--                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>-->
+            <!--                    <autoReleaseAfterClose>true</autoReleaseAfterClose>-->
+            <!--                </configuration>-->
+            <!--            </plugin>-->
         </plugins>
     </build>
     <repositories>
@@ -144,4 +145,6 @@
             <url>http://maven.aliyun.com/nexus/content/groups/public</url>
         </repository>
     </repositories>
+
+
 </project>
