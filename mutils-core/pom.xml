@@ -7,7 +7,7 @@
     <parent>
         <artifactId>mutils-core-dependencies</artifactId>
         <groupId>cn.minsin.core</groupId>
-        <version>4.0.1.RELEASE</version>
+        <version>4.0.1.SNAPSHOT</version>
     </parent>
     <artifactId>mutils-core</artifactId>
     <name>mutils-core</name>

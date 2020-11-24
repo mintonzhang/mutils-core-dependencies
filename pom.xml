@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <packaging>pom</packaging>
     <modelVersion>4.0.0</modelVersion>
-    <version>4.0.1.RELEASE</version>
+    <version>4.0.1.SNAPSHOT</version>
     <artifactId>mutils-core-dependencies</artifactId>
     <name>mutils-core-dependencies</name>
     <groupId>cn.minsin.core</groupId>
