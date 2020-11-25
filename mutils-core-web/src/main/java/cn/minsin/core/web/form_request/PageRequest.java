@@ -5,8 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.validation.constraints.NotNull;
-
 /**
  * 分页请求模板对象
  *
@@ -26,11 +24,9 @@ public class PageRequest {
 	 */
 	private static Integer DEFAULT_SIZE = 10;
 
-	@NotNull
 	@ApiModelProperty("页码,从DEFAULT_PAGE计算")
 	private Integer page;
 
-	@NotNull
 	@ApiModelProperty("每页记录数")
 	private Integer size;
 
