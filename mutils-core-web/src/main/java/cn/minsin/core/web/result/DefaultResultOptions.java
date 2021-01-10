@@ -26,7 +26,7 @@ public enum DefaultResultOptions implements ResultOptions {
 	//身份过期
 	UNAUTHORIZED(401, "您的身份已过期,请重新授权"),
 	//查询时没有查询到数据可以使用该状态
-	NOT_FOUND(404, "您访问的资源不存在"),
+	NOT_FOUND(404, "您访问的资源不存在,请检查路径后重试"),
 	//服务出现异常
 	ERROR(500, "系统开小差了，请稍后重试"),
 
