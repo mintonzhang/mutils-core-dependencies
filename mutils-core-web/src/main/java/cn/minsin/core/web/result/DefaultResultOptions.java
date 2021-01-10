@@ -28,7 +28,7 @@ public enum DefaultResultOptions implements ResultOptions {
 	//查询时没有查询到数据可以使用该状态
 	NOT_FOUND(404, "您访问的资源不存在,请检查路径后重试"),
 	//服务出现异常
-	ERROR(500, "系统开小差了，请稍后重试"),
+	ERROR(500, "系统开小差了,请稍后重试"),
 
 	/**
 	 * 参数验证失败
@@ -37,8 +37,8 @@ public enum DefaultResultOptions implements ResultOptions {
 
 
 	/**
-     * 状态码
-     */
+	 * 状态码
+	 */
     private final int code;
 
     /**
