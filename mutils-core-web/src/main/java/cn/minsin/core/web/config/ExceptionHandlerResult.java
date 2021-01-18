@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import javax.validation.UnexpectedTypeException;
+import javax.validation.ValidationException;
 
 /**
  * @author: minton.zhang
@@ -18,39 +19,39 @@ public interface ExceptionHandlerResult<T> {
 
 	/**
 	 * 参数不符合规范异常
-	 *
-	 * @param e
-	 * @return
 	 */
 	@ExceptionHandler(UnexpectedTypeException.class)
 	@ResponseBody
 	@ResponseStatus(HttpStatus.OK)
 	default T unexpectedTypeExceptionHandler(UnexpectedTypeException e) {
 		//自定义处理
-		return this.createResultWithException(e, ("参数类型处理异常"));
+		return this.createResultWithException(e, "参数类型处理异常");
 	}
 
 	/**
 	 * 参数异常
-	 *
-	 * @param e
-	 * @return
 	 */
 	@ExceptionHandler({MethodArgumentNotValidException.class, BindException.class})
 	@ResponseBody
 	@ResponseStatus(HttpStatus.OK)
 	default T methodArgumentNotValidException(MethodArgumentNotValidException e) {
-		String errorMsg;
 		String field = e.getBindingResult().getFieldError().getField();
-		errorMsg = String.format("'%s'校验失败", field);
-		return this.createResultWithException(e, (errorMsg));
+		String errorMsg = String.format("参数'%s'校验失败,请检查后重试", field);
+		return this.createResultWithException(e, errorMsg);
+	}
+
+	/**
+	 * 请求参数参数异常
+	 */
+	@ExceptionHandler({ValidationException.class})
+	@ResponseBody
+	@ResponseStatus(HttpStatus.OK)
+	default T methodArgumentNotValidException(ValidationException e) {
+		return this.createResultWithException(e, e.getMessage());
 	}
 
 	/**
 	 * 默认处理所有异常
-	 *
-	 * @param e
-	 * @return
 	 */
 	@ExceptionHandler(Exception.class)
 	@ResponseBody
