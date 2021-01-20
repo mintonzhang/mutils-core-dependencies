@@ -42,7 +42,7 @@ public interface CronConstant {
 	/**
 	 * 每30分钟执行一次
 	 */
-	String EVERY_THIRTY_MINUTE = "0 */10 * * * ?";
+	String EVERY_THIRTY_MINUTE = "0 */30 * * * ?";
 
 	/**
 	 * 每月一号零点执行
