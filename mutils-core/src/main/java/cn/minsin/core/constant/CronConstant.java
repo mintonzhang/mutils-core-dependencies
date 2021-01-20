@@ -23,6 +23,11 @@ public interface CronConstant {
 	String EVERY_HOUR = "0 0 0/1 * * ?";
 
 	/**
+	 * 每2小时执行
+	 */
+	String EVERY_TWO_HOUR = "0 0 0/2 * * ?";
+
+	/**
 	 * 每一分钟执行一次
 	 */
 	String EVERY_MINUTE = "0 */1 * * * ?";
@@ -30,6 +35,14 @@ public interface CronConstant {
 	 * 每五分钟执行一次
 	 */
 	String EVERY_FIVE_MINUTE = "0 */5 * * * ?";
+	/**
+	 * 每十分钟执行一次
+	 */
+	String EVERY_TEN_MINUTE = "0 */10 * * * ?";
+	/**
+	 * 每30分钟执行一次
+	 */
+	String EVERY_THIRTY_MINUTE = "0 */10 * * * ?";
 
 	/**
 	 * 每月一号零点执行
