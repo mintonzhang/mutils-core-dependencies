@@ -1,5 +1,6 @@
 package cn.minsin.core.tools._assert;
 
+import cn.minsin.core.tools.NumberUtil;
 import cn.minsin.core.tools.StringUtil;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
@@ -62,6 +63,27 @@ public abstract class CA {
 	 */
 	public static void isNull(Object object, String msg) {
 		withCustomException(StringUtil.isBlank(object), defaultException, msg);
+	}
+
+	/**
+	 * 是否大于0
+	 */
+	public static void isGtZero(Number number, String msg) {
+		withCustomException(NumberUtil.parseInt(number) > 0, defaultException, msg);
+	}
+
+	/**
+	 * 是否大于0
+	 */
+	public static void isEqZero(Number number, String msg) {
+		withCustomException(NumberUtil.parseInt(number) == 0, defaultException, msg);
+	}
+
+	/**
+	 * 是否大于0
+	 */
+	public static void isLtZero(Number number, String msg) {
+		withCustomException(NumberUtil.parseInt(number) < 0, defaultException, msg);
 	}
 
 	/**

@@ -31,10 +31,22 @@ public interface ExceptionHandlerResult<T> {
 	/**
 	 * 参数异常
 	 */
-	@ExceptionHandler({MethodArgumentNotValidException.class, BindException.class})
+	@ExceptionHandler({MethodArgumentNotValidException.class})
 	@ResponseBody
 	@ResponseStatus(HttpStatus.OK)
 	default T methodArgumentNotValidException(MethodArgumentNotValidException e) {
+		String field = e.getBindingResult().getFieldError().getField();
+		String errorMsg = String.format("参数'%s'校验失败,请检查后重试", field);
+		return this.createResultWithException(e, errorMsg);
+	}
+
+	/**
+	 * 参数异常
+	 */
+	@ExceptionHandler({BindException.class})
+	@ResponseBody
+	@ResponseStatus(HttpStatus.OK)
+	default T methodArgumentNotValidException(BindException e) {
 		String field = e.getBindingResult().getFieldError().getField();
 		String errorMsg = String.format("参数'%s'校验失败,请检查后重试", field);
 		return this.createResultWithException(e, errorMsg);

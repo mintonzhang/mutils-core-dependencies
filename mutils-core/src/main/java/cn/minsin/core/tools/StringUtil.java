@@ -301,10 +301,11 @@ public class StringUtil extends StringUtils {
 		if (isBlank(str)) {
 			return Collections.emptyList();
 		}
-		return splitStr(str, regex, Lists::newArrayList);
+		return Lists.newArrayList(str.split(regex));
 	}
 
-	public static <T> T splitStr(@NonNull String str, @NonNull String regex, Function<String[], T> conver) {
-		return conver.apply(str.split(regex));
+	public static <T> T splitStr(String str, String regex, Function<List<String>, T> conver) {
+
+		return conver.apply(splitStr(str, regex));
 	}
 }
