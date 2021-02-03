@@ -1,5 +1,6 @@
 package cn.minsin.core.tools;
 
+import cn.minsin.core.tools.function.FunctionalInterfaceUtil;
 import com.google.common.collect.Lists;
 import lombok.NonNull;
 import org.apache.commons.lang3.ArrayUtils;
@@ -304,8 +305,9 @@ public class StringUtil extends StringUtils {
 		return Lists.newArrayList(str.split(regex));
 	}
 
-	public static <T> T splitStr(String str, String regex, Function<List<String>, T> conver) {
+	public static <T> List<T> splitStr(String str, String regex, Function<String, T> function) {
 
-		return conver.apply(splitStr(str, regex));
+		final List<String> raw = splitStr(str, regex);
+		return FunctionalInterfaceUtil.convertList(raw, function);
 	}
 }
