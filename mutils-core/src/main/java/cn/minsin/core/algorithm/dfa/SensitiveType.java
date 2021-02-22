@@ -1,7 +1,7 @@
 package cn.minsin.core.algorithm.dfa;
 
 /**
- * @author: minton.zhang
+ * @author minton.zhang
  * @date: 2020/4/19 22:12
  * @description:
  */

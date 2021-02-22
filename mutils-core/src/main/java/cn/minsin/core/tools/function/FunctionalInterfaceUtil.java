@@ -16,8 +16,8 @@ import java.util.stream.Stream;
 /**
  * 显示函数工具类
  *
- * @author: minton.zhang
- * @since: 2020/5/19 20:23
+ * @author minton.zhang
+ * @since 2020/5/19 20:23
  */
 public interface FunctionalInterfaceUtil {
 

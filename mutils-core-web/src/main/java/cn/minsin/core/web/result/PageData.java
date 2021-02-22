@@ -16,8 +16,8 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 /**
- * @author: minton.zhang
- * @since: 2020/5/9 20:15
+ * @author minton.zhang
+ * @since 2020/5/9 20:15
  */
 @Getter
 @Setter

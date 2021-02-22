@@ -10,8 +10,8 @@ import java.util.Set;
 /**
  * web提交数据检查
  *
- * @author: minton.zhang
- * @since: 0.0.8.RELEASE
+ * @author minton.zhang
+ * @since 0.0.8.RELEASE
  */
 public interface WebFieldCheck<T> {
 

@@ -22,8 +22,8 @@ import java.util.function.Function;
  * BD09坐标系:百度坐标系，GCJ02坐标系加密后的坐标系
  * </pre>
  *
- * @author: minton.zhang
- * @since: 2020/5/13 15:54
+ * @author minton.zhang
+ * @since 2020/5/13 15:54
  */
 
 @Getter

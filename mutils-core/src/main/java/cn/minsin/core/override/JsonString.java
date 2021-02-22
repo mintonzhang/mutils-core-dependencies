@@ -5,8 +5,8 @@ package cn.minsin.core.override;
 /**
  * 继承或实现该接口，将提供toJsonString方法
  *
- * @author: minton.zhang
- * @since: 2020/1/21 13:26
+ * @author minton.zhang
+ * @since 2020/1/21 13:26
  */
 public interface JsonString {
     /**

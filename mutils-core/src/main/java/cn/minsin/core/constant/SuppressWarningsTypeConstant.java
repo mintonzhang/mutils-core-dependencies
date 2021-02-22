@@ -2,7 +2,8 @@ package cn.minsin.core.constant;
 
 /**
  * {@link SuppressWarnings} value常用类型
- * @author: minton.zhang
+ *
+ * @author minton.zhang
  * @date: 2020/4/19 21:42
  * @description:
  */

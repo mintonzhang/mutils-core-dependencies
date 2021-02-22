@@ -1,8 +1,8 @@
 package cn.minsin.core.tools.coordinate;
 
 /**
- * @author: minton.zhang
- * @since: 2020/5/13 16:18
+ * @author minton.zhang
+ * @since 2020/5/13 16:18
  */
 public class WGS84 extends Gps {
 

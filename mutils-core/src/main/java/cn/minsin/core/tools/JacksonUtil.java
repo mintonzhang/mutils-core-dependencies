@@ -13,8 +13,8 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.function.Consumer;
 
 /**
- * @author: minton.zhang
- * @since: 2021/2/2 下午1:28
+ * @author minton.zhang
+ * @since 2021/2/2 下午1:28
  */
 @UtilityClass
 @Slf4j

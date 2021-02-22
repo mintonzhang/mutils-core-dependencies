@@ -5,7 +5,6 @@ import cn.minsin.core.tools.StringUtil;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 
-import java.io.FileNotFoundException;
 import java.lang.reflect.Constructor;
 
 /**
@@ -13,8 +12,8 @@ import java.lang.reflect.Constructor;
  *     当判断条件返回为true时抛出异常
  * </pre>
  *
- * @author: minton.zhang
- * @since: 2020/5/26 17:22
+ * @author minton.zhang
+ * @since 2020/5/26 17:22
  */
 @Slf4j
 public abstract class CA {
@@ -56,7 +55,14 @@ public abstract class CA {
 	}
 
 	/**
-	 * 如果obejct是null,则抛出默认异常
+	 * 如果condition是true,则抛出默认异常
+	 */
+	public static void isFalse(boolean condition, String msg) {
+		withCustomException(!condition, defaultException, msg);
+	}
+
+	/**
+	 * 如果object是null,则抛出默认异常
 	 *
 	 * @param object
 	 * @param msg
@@ -66,6 +72,7 @@ public abstract class CA {
 	}
 
 	/**
+	 * x>0
 	 * 是否大于0
 	 */
 	public static void isGtZero(Number number, String msg) {
@@ -73,14 +80,16 @@ public abstract class CA {
 	}
 
 	/**
-	 * 是否大于0
+	 * x=0
+	 * 是否等于0
 	 */
 	public static void isEqZero(Number number, String msg) {
 		withCustomException(NumberUtil.parseInt(number) == 0, defaultException, msg);
 	}
 
 	/**
-	 * 是否大于0
+	 * x<0
+	 * 是否小于0
 	 */
 	public static void isLtZero(Number number, String msg) {
 		withCustomException(NumberUtil.parseInt(number) < 0, defaultException, msg);
@@ -102,76 +111,12 @@ public abstract class CA {
 	/**
 	 * 抛出自定义Exception
 	 */
-	public static void withCustomException(boolean condition, Class<? extends RuntimeException> clazz, String msg) {
+	protected static void withCustomException(boolean condition, Class<? extends RuntimeException> clazz, String msg) {
 		if (condition) {
 			throw createInstance(clazz, msg);
 		}
 	}
 
-	//********************************常用异常****************************************//
-
-	/**
-	 * 抛出运行时异常
-	 */
-	public static void withRuntimeException(boolean condition, String msg) {
-		if (condition) {
-			throw new RuntimeException(msg);
-		}
-	}
-
-	/**
-	 * 抛出空指针异常
-	 */
-	public static void withNullPointException(boolean condition, String msg) {
-		if (condition) {
-			throw new NullPointerException(msg);
-		}
-	}
-
-	/**
-	 * 抛出文件未找到异常
-	 */
-	public static void withFileNotFoundException(boolean condition, String msg) throws FileNotFoundException {
-		if (condition) {
-			throw new FileNotFoundException(msg);
-		}
-	}
-
-	/**
-	 * 抛出class未找到异常
-	 */
-	public static void withClassNotFoundException(boolean condition, String msg) throws ClassNotFoundException {
-		if (condition) {
-			throw new ClassNotFoundException(msg);
-		}
-	}
-
-	/**
-	 * 抛出下标越界异常
-	 */
-	public static void withIndexOutOfBoundsException(boolean condition, String msg) {
-		if (condition) {
-			throw new IndexOutOfBoundsException(msg);
-		}
-	}
-
-	/**
-	 * 抛出算数异常
-	 */
-	public static void withArithmeticException(boolean condition, String msg) {
-		if (condition) {
-			throw new ArithmeticException(msg);
-		}
-	}
-
-	/**
-	 * 抛出异常
-	 */
-	public static void withException(boolean condition, String msg) throws Exception {
-		if (condition) {
-			throw new Exception(msg);
-		}
-	}
 
 	/**
 	 * 通常来说不建议这样使用 因为不管是true还是false都会创建这个异常对象
@@ -195,7 +140,7 @@ public abstract class CA {
 	/**
 	 * 必须实现此构造器{@linkplain RuntimeException#Throwable(String)}
 	 */
-	public static <T extends RuntimeException> T createInstance(Class<T> clazz, String message) {
+	protected static <T extends RuntimeException> T createInstance(Class<T> clazz, String message) {
 		try {
 			Constructor<? extends RuntimeException> constructor = clazz.getConstructor(String.class);
 			throw constructor.newInstance(message);

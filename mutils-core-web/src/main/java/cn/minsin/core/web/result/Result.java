@@ -25,8 +25,8 @@ import java.util.function.Consumer;
  *     内部使用{@linkplain HashMap}进行存储
  * </pre>
  *
- * @author: minton.zhang
- * @since: 2020/5/9 21:21
+ * @author minton.zhang
+ * @since 2020/5/9 21:21
  */
 @Getter
 @Setter

@@ -10,8 +10,8 @@ import java.lang.reflect.Type;
  * 基于fastjson {@link JSON#toJSONString()} 实现序列化
  * 基于fastjson {@link JSON#parseObject(String, Class)} ()} 实现反序列化
  *
- * @author: minton.zhang
- * @since: 0.0.8.RELEASE
+ * @author minton.zhang
+ * @since 0.0.8.RELEASE
  */
 public interface AutoCloneable<T> extends Serializable, JsonString {
 

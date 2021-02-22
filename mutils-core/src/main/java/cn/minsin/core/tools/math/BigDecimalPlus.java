@@ -13,8 +13,8 @@ import java.util.function.UnaryOperator;
 /**
  * 增强 BigDecimal
  *
- * @author: minton.zhang
- * @since: 2020/5/9 15:07
+ * @author minton.zhang
+ * @since 2020/5/9 15:07
  */
 @NoArgsConstructor
 public class BigDecimalPlus extends Number implements Supplier<BigDecimal> {

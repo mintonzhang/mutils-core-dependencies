@@ -1,5 +1,5 @@
 /**
- * @author: minton.zhang
+ * @author minton.zhang
  * @date: 2020/4/19 21:03
  * @description:
  */

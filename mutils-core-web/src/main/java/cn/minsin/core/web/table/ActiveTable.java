@@ -17,7 +17,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 /**
  * 动态表格的表格数据
  *
- * @author: minton.zhang
+ * @author minton.zhang
  * @date: 2019/10/14 19:27
  */
 @NoArgsConstructor

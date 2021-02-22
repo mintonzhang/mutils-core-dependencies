@@ -1,8 +1,8 @@
 package cn.minsin.core.tools.http;
 
 /**
- * @author: minton.zhang
- * @since: 2020/7/15 15:37
+ * @author minton.zhang
+ * @since 2020/7/15 15:37
  */
 public interface MediaTypeConstant {
 

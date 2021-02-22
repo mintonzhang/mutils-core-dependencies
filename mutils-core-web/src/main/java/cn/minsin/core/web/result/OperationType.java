@@ -5,9 +5,9 @@ import cn.minsin.core.tools.StringUtil;
 /**
  * 默认操作
  *
- * @Author: minton.zhang
+ * @author minton.zhang
  * @Date: 2019/9/22 17:47
- * @since: 0.0.8.RELEASE
+ * @since 0.0.8.RELEASE
  */
 public abstract class OperationType {
 

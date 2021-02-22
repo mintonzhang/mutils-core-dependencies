@@ -4,8 +4,8 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 
 /**
- * @author: minton.zhang
- * @since: 2020/6/2 20:45
+ * @author minton.zhang
+ * @since 2020/6/2 20:45
  */
 public interface EnumUtil {
 

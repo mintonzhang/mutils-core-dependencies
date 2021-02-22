@@ -10,8 +10,8 @@ import java.util.function.Function;
 /**
  * 保存或修改 模板
  *
- * @author: minton.zhang
- * @since: 2020/4/28 16:54
+ * @author minton.zhang
+ * @since 2020/4/28 16:54
  */
 @Getter
 @Setter

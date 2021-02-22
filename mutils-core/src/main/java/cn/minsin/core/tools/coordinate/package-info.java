@@ -13,7 +13,7 @@
  *
  * </pre>
  *
- * @author: minton.zhang
- * @since: 2020/5/13 15:54
+ * @author minton.zhang
+ * @since 2020/5/13 15:54
  */
 package cn.minsin.core.tools.coordinate;

@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 /**
  * 被使用者只需要继承该接口,添加该注解{@link ControllerAdvice}
  *
- * @author: minton.zhang
- * @since: 2020/10/18 00:25
+ * @author minton.zhang
+ * @since 2020/10/18 00:25
  */
 public interface DefaultExceptionHandler extends ExceptionHandlerResult<Result<String>> {
 

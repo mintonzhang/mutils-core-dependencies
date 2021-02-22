@@ -11,8 +11,8 @@ import javax.validation.Valid;
 import java.io.Serializable;
 
 /**
- * @author: minton.zhang
- * @since: 2020/10/23 09:37
+ * @author minton.zhang
+ * @since 2020/10/23 09:37
  */
 public abstract class BaseController<T extends BaseService<
 		R_ID_REQUEST,

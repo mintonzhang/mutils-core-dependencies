@@ -8,8 +8,8 @@ import javax.validation.Valid;
 import java.io.Serializable;
 
 /**
- * @author: minton.zhang
- * @since: 2020/11/23 16:06
+ * @author minton.zhang
+ * @since 2020/11/23 16:06
  */
 //@FeignClient(name = "ck-user-service",path = "/baseProvince",configuration = FeignConfiguration.class)
 //@Headers({"Content-Type: application/json", "Accept: application/json"})

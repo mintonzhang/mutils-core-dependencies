@@ -9,8 +9,8 @@ import java.lang.annotation.Target;
 /**
  * 动态表格注解
  *
- * @author: minton.zhang
- * @since: 0.0.8.RELEASE
+ * @author minton.zhang
+ * @since 0.0.8.RELEASE
  */
 @Target({ElementType.FIELD})
 @Documented

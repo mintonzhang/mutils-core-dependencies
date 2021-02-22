@@ -1,8 +1,8 @@
 package cn.minsin.core.web.exception;
 
 /**
- * @author: minton.zhang
- * @since: 2020/6/11 14:28
+ * @author minton.zhang
+ * @since 2020/6/11 14:28
  */
 public class BusinessException extends RuntimeException {
 

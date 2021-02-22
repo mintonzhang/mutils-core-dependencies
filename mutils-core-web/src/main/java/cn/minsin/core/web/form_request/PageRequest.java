@@ -8,8 +8,8 @@ import lombok.Setter;
 /**
  * 分页请求模板对象
  *
- * @author: minton.zhang
- * @since: 2020/4/28 16:51
+ * @author minton.zhang
+ * @since 2020/4/28 16:51
  */
 @AllArgsConstructor
 @NoArgsConstructor

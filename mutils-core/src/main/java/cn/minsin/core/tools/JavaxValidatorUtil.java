@@ -11,8 +11,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * @author: minton.zhang
- * @since: 2021/1/18 上午10:24
+ * @author minton.zhang
+ * @since 2021/1/18 上午10:24
  */
 public class JavaxValidatorUtil {
 

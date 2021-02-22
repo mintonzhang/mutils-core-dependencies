@@ -7,8 +7,8 @@ import java.awt.image.BufferedImage;
 import java.io.InputStream;
 
 /**
- * @author: minton.zhang
- * @since: 2020/6/11 16:43
+ * @author minton.zhang
+ * @since 2020/6/11 16:43
  */
 public class ImageUtil {
 

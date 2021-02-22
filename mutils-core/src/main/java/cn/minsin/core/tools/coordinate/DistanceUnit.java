@@ -4,8 +4,8 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 /**
- * @author: minton.zhang
- * @since: 2020/5/13 16:48
+ * @author minton.zhang
+ * @since 2020/5/13 16:48
  */
 @Getter
 @RequiredArgsConstructor

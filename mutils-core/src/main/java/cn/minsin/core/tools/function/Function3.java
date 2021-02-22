@@ -1,8 +1,8 @@
 package cn.minsin.core.tools.function;
 
 /**
- * @author: minton.zhang
- * @since: 2020/5/20 16:20
+ * @author minton.zhang
+ * @since 2020/5/20 16:20
  */
 @FunctionalInterface
 public interface Function3<P1, P2, P3, R> {

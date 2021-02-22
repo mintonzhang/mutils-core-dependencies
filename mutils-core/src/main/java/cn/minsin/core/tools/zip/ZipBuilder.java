@@ -14,8 +14,8 @@ import java.util.List;
 import java.util.zip.ZipOutputStream;
 
 /**
- * @author: minton.zhang
- * @since: 2020/5/29 11:27
+ * @author minton.zhang
+ * @since 2020/5/29 11:27
  */
 @Getter
 @Setter

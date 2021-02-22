@@ -6,8 +6,8 @@ import java.awt.Color;
 
 
 /**
- * @author: minton.zhang
- * @since: 2019/12/6 14:37
+ * @author minton.zhang
+ * @since 2019/12/6 14:37
  * 0.1.2.RELEASE
  */
 public class ColorUtil {

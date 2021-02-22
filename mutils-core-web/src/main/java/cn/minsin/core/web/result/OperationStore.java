@@ -7,8 +7,8 @@ import java.lang.reflect.Modifier;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 /**
- * @author: minton.zhang
- * @since: 2020/5/9 21:01
+ * @author minton.zhang
+ * @since 2020/5/9 21:01
  */
 public class OperationStore {
     static {

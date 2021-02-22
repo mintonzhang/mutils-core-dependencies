@@ -9,15 +9,16 @@ import java.io.Serializable;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * 	动态构建Vo对象 替代的实体类中的VO
- * 	<pre style='color:red'>
+ * 动态构建Vo对象 替代的实体类中的VO
+ * <pre style='color:red'>
  * 	    建议：业务代码中，尽量不要使用。
  * 	    1. 魔术变量太多，可读性低
  * 	    2. 后期维护成本大 （开发一时爽，维护火葬场）
  *  </pre>
+ *
  * @author mintonzhang
  * @date 2019年2月14日
- * @since: 0.0.8.RELEASE
+ * @since 0.0.8.RELEASE
  */
 public class VO extends ConcurrentHashMap<String, Object> implements Serializable {
 

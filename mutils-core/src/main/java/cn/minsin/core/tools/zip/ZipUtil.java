@@ -15,8 +15,8 @@ import java.util.zip.ZipOutputStream;
 /**
  * zip压缩Util
  *
- * @author: minton.zhang
- * @since: 2020/5/29 11:14
+ * @author minton.zhang
+ * @since 2020/5/29 11:14
  */
 public class ZipUtil {
 

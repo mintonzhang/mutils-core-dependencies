@@ -10,8 +10,8 @@ import java.util.Optional;
 /**
  * 本地线程context
  *
- * @author: minton.zhang
- * @since: 2020/11/21 21:50
+ * @author minton.zhang
+ * @since 2020/11/21 21:50
  */
 @Slf4j
 public class SessionContext {

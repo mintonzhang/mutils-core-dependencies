@@ -3,8 +3,8 @@ package cn.minsin.core.web.form_request;
 import java.util.function.Function;
 
 /**
- * @author: minton.zhang
- * @since: 2020/4/28 19:15
+ * @author minton.zhang
+ * @since 2020/4/28 19:15
  */
 public class InnerFunction {
 

@@ -5,8 +5,8 @@ import org.apache.commons.lang3.RandomStringUtils;
 /**
  * 随机数生成
  *
- * @author: minton.zhang
- * @since: 2020/7/15 14:48
+ * @author minton.zhang
+ * @since 2020/7/15 14:48
  */
 public class RandomUtil extends RandomStringUtils {
 

@@ -11,8 +11,8 @@ import javax.validation.UnexpectedTypeException;
 import javax.validation.ValidationException;
 
 /**
- * @author: minton.zhang
- * @since: 2020/10/19 23:08
+ * @author minton.zhang
+ * @since 2020/10/19 23:08
  */
 
 public interface ExceptionHandlerResult<T> {

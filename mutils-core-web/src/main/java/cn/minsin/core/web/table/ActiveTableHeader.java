@@ -13,8 +13,8 @@ import java.util.List;
 /**
  * 动态表格表头
  *
- * @author: minton.zhang
- * @since: 2019/10/15 17:52
+ * @author minton.zhang
+ * @since 2019/10/15 17:52
  */
 public class ActiveTableHeader extends BaseActiveTable {
 

@@ -12,7 +12,7 @@ import java.util.Set;
 /**
  * 使用dfa算法 实现敏感词过滤
  *
- * @author: minton.zhang
+ * @author minton.zhang
  * @date: 2020/4/19 21:09
  * @description:
  */

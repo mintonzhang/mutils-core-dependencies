@@ -7,8 +7,8 @@ import lombok.Setter;
 import java.util.Date;
 
 /**
- * @author: minton.zhang
- * @since: 2020/4/28 17:15
+ * @author minton.zhang
+ * @since 2020/4/28 17:15
  */
 @Getter
 @Setter

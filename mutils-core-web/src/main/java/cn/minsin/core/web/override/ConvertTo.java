@@ -5,8 +5,8 @@ import org.springframework.beans.BeanUtils;
 import java.util.function.Function;
 
 /**
- * @author: minton.zhang
- * @since: 2020/6/23 18:01
+ * @author minton.zhang
+ * @since 2020/6/23 18:01
  */
 public interface ConvertTo<INPUT> {
 

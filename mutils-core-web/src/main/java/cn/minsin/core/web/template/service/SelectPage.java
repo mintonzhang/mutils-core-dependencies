@@ -1,8 +1,8 @@
 package cn.minsin.core.web.template.service;
 
 /**
- * @author: minton.zhang
- * @since: 2020/11/21 22:03
+ * @author minton.zhang
+ * @since 2020/11/21 22:03
  */
 public interface SelectPage<C, R> {
 

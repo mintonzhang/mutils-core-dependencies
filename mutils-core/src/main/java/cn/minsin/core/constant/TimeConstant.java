@@ -1,8 +1,8 @@
 package cn.minsin.core.constant;
 
 /**
- * @author: minton.zhang
- * @since: 2019/11/7 18:14
+ * @author minton.zhang
+ * @since 2019/11/7 18:14
  */
 public interface TimeConstant {
 

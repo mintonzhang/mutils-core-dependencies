@@ -23,8 +23,8 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 /**
- * @author: minton.zhang
- * @since: 2020/7/15 15:24
+ * @author minton.zhang
+ * @since 2020/7/15 15:24
  */
 public class OkHttpUtil {
 	private final OkHttpClient client;

@@ -4,8 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * @author: minton.zhang
- * @since: 2019/12/2 18:02
+ * @author minton.zhang
+ * @since 2019/12/2 18:02
  */
 @Getter
 @Setter

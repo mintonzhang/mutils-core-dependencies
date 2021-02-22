@@ -13,8 +13,8 @@ import java.util.function.BiConsumer;
 import java.util.function.Predicate;
 
 /**
- * @author: minton.zhang
- * @since: 2020/6/11 14:45
+ * @author minton.zhang
+ * @since 2020/6/11 14:45
  */
 public class ReflectUtil {
 

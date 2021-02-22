@@ -3,7 +3,7 @@ package cn.minsin.core.constant;
 /**
  * spring中定时器的cron表达式
  *
- * @Author: minton.zhang
+ * @author minton.zhang
  * @Date: 2019/9/25 16:13
  */
 public interface CronConstant {

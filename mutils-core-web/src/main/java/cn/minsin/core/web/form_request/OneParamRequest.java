@@ -9,8 +9,8 @@ import java.io.Serializable;
 /**
  * 唯一标识模板
  *
- * @author: minton.zhang
- * @since: 2020/4/15 13:58
+ * @author minton.zhang
+ * @since 2020/4/15 13:58
  */
 @Getter
 @Setter

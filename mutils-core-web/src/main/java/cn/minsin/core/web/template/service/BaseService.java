@@ -9,8 +9,8 @@ import java.io.Serializable;
  * 删除和按照id查询 RequiredOneParamRequest
  * 分页查询 PAGE
  *
- * @author: minton.zhang
- * @since: 2020/11/21 21:59
+ * @author minton.zhang
+ * @since 2020/11/21 21:59
  */
 public interface BaseService<
 		R_ID_REQUEST,
