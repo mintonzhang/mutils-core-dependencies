@@ -44,6 +44,16 @@ public interface FunctionalInterfaceUtil {
 	}
 
 	/**
+	 * 转换成List
+	 *
+	 * @param source   源Collection
+	 * @param function 转换函数
+	 */
+	static <R, S> List<R> convertList(Collection<S> source, Function<S, R> function, Predicate<S> filter) {
+		return source.stream().filter(filter).map(function).collect(Collectors.toList());
+	}
+
+	/**
 	 * 转换成Set
 	 *
 	 * @param source   源Collection
