@@ -1,6 +1,8 @@
 package cn.minsin.core.tools.date;
 
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
@@ -11,7 +13,8 @@ import java.util.Date;
  */
 public class LocalDateTimeUtil {
 
-	final static ZoneOffset TIME_ZONE = ZoneOffset.of(ZoneOffset.systemDefault().getId());
+	final static ZoneOffset TIME_ZONE = OffsetDateTime.now(ZoneId.systemDefault()).getOffset();
+
 	private final static DateTimeFormatter DEFAULT_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
 	public static String format() {
