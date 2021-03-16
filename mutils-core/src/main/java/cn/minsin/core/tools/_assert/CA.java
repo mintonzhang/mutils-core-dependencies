@@ -7,6 +7,8 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.lang.reflect.Constructor;
 
+import static cn.minsin.core.tools.FormatStringUtil.format;
+
 /**
  * <pre>
  *     当判断条件返回为true时抛出异常
@@ -40,8 +42,8 @@ public abstract class CA {
 	 *
 	 * @param msg
 	 */
-	public static void withDefaultException(boolean condition, String msg) {
-		withCustomException(condition, defaultException, msg);
+	public static void withDefaultException(boolean condition, String msg, Object... param) {
+		withCustomException(condition, defaultException, format(msg, param));
 	}
 
 	/**
@@ -50,15 +52,15 @@ public abstract class CA {
 	 * @param condition
 	 * @param msg
 	 */
-	public static void isTrue(boolean condition, String msg) {
-		withCustomException(condition, defaultException, msg);
+	public static void isTrue(boolean condition, String msg, Object... param) {
+		withCustomException(condition, defaultException, format(msg, param));
 	}
 
 	/**
 	 * 如果condition是true,则抛出默认异常
 	 */
-	public static void isFalse(boolean condition, String msg) {
-		withCustomException(!condition, defaultException, msg);
+	public static void isFalse(boolean condition, String msg, Object... param) {
+		withCustomException(!condition, defaultException, format(msg, param));
 	}
 
 	/**
@@ -67,53 +69,41 @@ public abstract class CA {
 	 * @param object
 	 * @param msg
 	 */
-	public static void isNull(Object object, String msg) {
-		withCustomException(StringUtil.isBlank(object), defaultException, msg);
+	public static void isNull(Object object, String msg, Object... param) {
+		withCustomException(StringUtil.isBlank(object), defaultException, format(msg, param));
 	}
 
 	/**
 	 * x>0
 	 * 是否大于0
 	 */
-	public static void isGtZero(Number number, String msg) {
-		withCustomException(NumberUtil.parseInt(number) > 0, defaultException, msg);
+	public static void isGtZero(Number number, String msg, Object... param) {
+		withCustomException(NumberUtil.parseInt(number) > 0, defaultException, format(msg, param));
 	}
 
 	/**
 	 * x=0
 	 * 是否等于0
 	 */
-	public static void isEqZero(Number number, String msg) {
-		withCustomException(NumberUtil.parseInt(number) == 0, defaultException, msg);
+	public static void isEqZero(Number number, String msg, Object... param) {
+		withCustomException(NumberUtil.parseInt(number) == 0, defaultException, format(msg, param));
 	}
 
 	/**
 	 * x<0
 	 * 是否小于0
 	 */
-	public static void isLtZero(Number number, String msg) {
-		withCustomException(NumberUtil.parseInt(number) < 0, defaultException, msg);
-	}
-
-	/**
-	 * 如果obejct是null,则抛出默认异常
-	 *
-	 * @param object
-	 * @param msg
-	 */
-	public static void isNull(Object object, String msg, Class<? extends RuntimeException> clazz) {
-		if (StringUtil.isBlank(object)) {
-			createInstance(clazz, msg);
-		}
+	public static void isLtZero(Number number, String msg, Object... param) {
+		withCustomException(NumberUtil.parseInt(number) < 0, defaultException, format(msg, param));
 	}
 
 
 	/**
 	 * 抛出自定义Exception
 	 */
-	protected static void withCustomException(boolean condition, Class<? extends RuntimeException> clazz, String msg) {
+	protected static void withCustomException(boolean condition, Class<? extends RuntimeException> clazz, String msg, Object... param) {
 		if (condition) {
-			throw createInstance(clazz, msg);
+			throw createInstance(clazz, format(msg, param));
 		}
 	}
 
@@ -151,4 +141,6 @@ public abstract class CA {
 			throw new RuntimeException(message);
 		}
 	}
+
+
 }
