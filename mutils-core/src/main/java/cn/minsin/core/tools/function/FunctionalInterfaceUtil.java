@@ -1,5 +1,7 @@
 package cn.minsin.core.tools.function;
 
+import cn.minsin.core.tools.StringUtil;
+
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -41,6 +43,26 @@ public interface FunctionalInterfaceUtil {
 	 */
 	static <R, S> List<R> convertList(Collection<S> source, Function<S, R> function) {
 		return source.stream().map(function).collect(Collectors.toList());
+	}
+
+	/**
+	 * 转换成List
+	 *
+	 * @param source   源Collection
+	 * @param function 转换函数
+	 */
+	static <R, S> List<R> convertListThenFilter(Collection<S> source, Function<S, R> function, Predicate<S> filer) {
+		return source.stream().filter(filer).map(function).collect(Collectors.toList());
+	}
+
+	/**
+	 * 转换成List
+	 *
+	 * @param source   源Collection
+	 * @param function 转换函数
+	 */
+	static <R, S> List<R> convertListThenFilterBlank(Collection<S> source, Function<S, R> function) {
+		return source.stream().map(function).filter(StringUtil::isNotBlank).collect(Collectors.toList());
 	}
 
 	/**
