@@ -1,5 +1,6 @@
 package cn.minsin.core.tools.date;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
@@ -13,7 +14,7 @@ import java.util.Date;
  */
 public class LocalDateTimeUtil {
 
-	final static ZoneOffset TIME_ZONE = OffsetDateTime.now(ZoneId.systemDefault()).getOffset();
+	private final static ZoneOffset TIME_ZONE = OffsetDateTime.now(ZoneId.systemDefault()).getOffset();
 
 	private final static DateTimeFormatter DEFAULT_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
@@ -28,6 +29,15 @@ public class LocalDateTimeUtil {
 	public static String format(LocalDateTime localDateTime, DateTimeFormatter dateTimeFormatter) {
 		return localDateTime.format(dateTimeFormatter);
 	}
+
+	public static String format2String(LocalDateTime localDateTime, String dateTimeFormatter) {
+		return localDateTime.format(DateTimeFormatter.ofPattern(dateTimeFormatter));
+	}
+
+	public static String format2String(String dateTimeFormatter) {
+		return LocalDate.now().format(DateTimeFormatter.ofPattern(dateTimeFormatter));
+	}
+
 
 	public static String format2String(LocalDateTime localDateTime) {
 		return localDateTime.format(DEFAULT_FORMATTER);

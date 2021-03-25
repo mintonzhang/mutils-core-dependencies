@@ -1,6 +1,9 @@
 package cn.minsin.core.tools.date;
 
 import java.time.LocalDate;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
@@ -11,6 +14,8 @@ import java.util.Date;
  */
 public class LocalDateUtil {
 
+	private final static ZoneOffset TIME_ZONE = OffsetDateTime.now(ZoneId.systemDefault()).getOffset();
+
 	private final static DateTimeFormatter DEFAULT_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
 
@@ -20,6 +25,14 @@ public class LocalDateUtil {
 
 	public static String format(DateTimeFormatter dateTimeFormatter) {
 		return LocalDate.now().format(dateTimeFormatter);
+	}
+
+	public static String format(LocalDate localDateTime, String dateTimeFormatter) {
+		return localDateTime.format(DateTimeFormatter.ofPattern(dateTimeFormatter));
+	}
+
+	public static String format(String dateTimeFormatter) {
+		return LocalDate.now().format(DateTimeFormatter.ofPattern(dateTimeFormatter));
 	}
 
 	public static String format(LocalDate localDateTime, DateTimeFormatter dateTimeFormatter) {
@@ -35,19 +48,19 @@ public class LocalDateUtil {
 		if (null == date) {
 			return null;
 		}
-		return date.toInstant().atZone(LocalDateTimeUtil.TIME_ZONE).toLocalDate();
+		return date.toInstant().atZone(TIME_ZONE).toLocalDate();
 	}
 
 	public static Date format2Date(LocalDate localDate) {
 		if (null == localDate) {
 			return null;
 		}
-		ZonedDateTime zonedDateTime = localDate.atStartOfDay(LocalDateTimeUtil.TIME_ZONE);
+		ZonedDateTime zonedDateTime = localDate.atStartOfDay(TIME_ZONE);
 		return Date.from(zonedDateTime.toInstant());
 	}
 
 	public static long format2Long(LocalDate localDate) {
-		return localDate.atStartOfDay(LocalDateTimeUtil.TIME_ZONE).toInstant().toEpochMilli();
+		return localDate.atStartOfDay(TIME_ZONE).toInstant().toEpochMilli();
 
 	}
 
