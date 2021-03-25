@@ -51,12 +51,12 @@ public interface FunctionalInterfaceUtil {
 	 * @param source   源Collection
 	 * @param function 转换函数
 	 */
-	static <R, S> List<R> convertListThenFilter(Collection<S> source, Function<S, R> function, Predicate<S> filer) {
-		return source.stream().filter(filer).map(function).collect(Collectors.toList());
+	static <R, S> List<R> convertListThenFilter(Collection<S> source, Function<S, R> function, Predicate<S> filter) {
+		return source.stream().filter(filter).map(function).collect(Collectors.toList());
 	}
 
 	/**
-	 * 转换成List
+	 * 转换成List 然后过滤R的空值
 	 *
 	 * @param source   源Collection
 	 * @param function 转换函数
@@ -65,15 +65,6 @@ public interface FunctionalInterfaceUtil {
 		return source.stream().map(function).filter(StringUtil::isNotBlank).collect(Collectors.toList());
 	}
 
-	/**
-	 * 转换成List
-	 *
-	 * @param source   源Collection
-	 * @param function 转换函数
-	 */
-	static <R, S> List<R> convertList(Collection<S> source, Function<S, R> function, Predicate<S> filter) {
-		return source.stream().filter(filter).map(function).collect(Collectors.toList());
-	}
 
 	/**
 	 * 转换成Set
