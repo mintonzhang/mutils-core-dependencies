@@ -45,4 +45,17 @@ public class BooleanUtil extends BooleanUtils {
 		}
 		return NumberUtil.INTEGER_ONE.equals(number.intValue());
 	}
+
+	public static boolean parseBooleanValueThenNegate(Number number) {
+		return !parseBooleanValue(number);
+	}
+
+	public static int parseIntValueThenNegate(Boolean bool) {
+		return parseIntValue(bool, 0, 1);
+	}
+
+
+	public static Integer parseIntegerValueThenNegate(Boolean bool) {
+		return parseIntValueThenNegate(bool);
+	}
 }
