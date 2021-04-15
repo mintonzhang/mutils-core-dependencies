@@ -1,6 +1,5 @@
 package cn.minsin.core.tools.date;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
@@ -35,7 +34,7 @@ public class LocalDateTimeUtil {
 	}
 
 	public static String format2String(String dateTimeFormatter) {
-		return LocalDate.now().format(DateTimeFormatter.ofPattern(dateTimeFormatter));
+		return LocalDateTime.now().format(DateTimeFormatter.ofPattern(dateTimeFormatter));
 	}
 
 

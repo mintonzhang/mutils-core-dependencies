@@ -27,20 +27,20 @@ public class LocalDateUtil {
 		return LocalDate.now().format(dateTimeFormatter);
 	}
 
-	public static String format(LocalDate localDateTime, String dateTimeFormatter) {
-		return localDateTime.format(DateTimeFormatter.ofPattern(dateTimeFormatter));
+	public static String format(LocalDate localdate, String dateTimeFormatter) {
+		return localdate.format(DateTimeFormatter.ofPattern(dateTimeFormatter));
 	}
 
 	public static String format(String dateTimeFormatter) {
 		return LocalDate.now().format(DateTimeFormatter.ofPattern(dateTimeFormatter));
 	}
 
-	public static String format(LocalDate localDateTime, DateTimeFormatter dateTimeFormatter) {
-		return localDateTime.format(dateTimeFormatter);
+	public static String format(LocalDate localdate, DateTimeFormatter dateTimeFormatter) {
+		return localdate.format(dateTimeFormatter);
 	}
 
-	public static String format(LocalDate localDateTime) {
-		return localDateTime.format(DEFAULT_FORMATTER);
+	public static String format(LocalDate localdate) {
+		return localdate.format(DEFAULT_FORMATTER);
 	}
 
 
