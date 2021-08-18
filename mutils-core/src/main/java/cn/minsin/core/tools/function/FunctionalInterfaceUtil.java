@@ -1,16 +1,19 @@
 package cn.minsin.core.tools.function;
 
 import cn.minsin.core.tools.StringUtil;
+import cn.minsin.core.tools._assert.CA;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -106,14 +109,62 @@ public interface FunctionalInterfaceUtil {
     }
 
     /**
+     * 将T转换为R
+     *
+     * @param source   源对象
+     * @param function 转换函数
+     */
+    static <R, S> R convert(S source, Function<S, R> function, String errorMessage) {
+        return Optional.ofNullable(source).map(function).orElseThrow(() -> CA.createDefaultInstance(errorMessage));
+    }
+
+    /**
+     * 将T转换为R
+     *
+     * @param source   源对象
+     * @param function 转换函数
+     */
+    static <R, S> R convert(S source, Function<S, R> function, Supplier<RuntimeException> supplyRuntimeException) {
+        return Optional.ofNullable(source).map(function).orElseThrow(supplyRuntimeException);
+    }
+
+    /**
      * 消费对象
      *
      * @param source   源对象
      * @param function 消费函数
      */
-    static <S> S convert(S source, Consumer<S> function) {
+    static <S> void consumer(S source, Consumer<S> function, String errorMessage) {
+        if (source != null) {
+            function.accept(source);
+        } else {
+            throw CA.createDefaultInstance(errorMessage);
+        }
+    }
+
+
+    /**
+     * 消费对象
+     *
+     * @param source   源对象
+     * @param function 消费函数
+     */
+    static <S> void consumer(S source, Consumer<S> function, Supplier<RuntimeException> supplyRuntimeException) {
+        if (source != null) {
+            function.accept(source);
+        } else {
+            throw supplyRuntimeException.get();
+        }
+    }
+
+    /**
+     * 消费对象
+     *
+     * @param source   源对象
+     * @param function 消费函数
+     */
+    static <S> void consumer(S source, Consumer<S> function) {
         function.accept(source);
-        return source;
     }
 
     /**

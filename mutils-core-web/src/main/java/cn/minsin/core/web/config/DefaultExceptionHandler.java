@@ -1,7 +1,6 @@
 package cn.minsin.core.web.config;
 
 import cn.minsin.core.web.result.Result;
-import org.slf4j.Logger;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 
 
@@ -13,12 +12,12 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
  */
 public interface DefaultExceptionHandler extends ExceptionHandlerResult<Result<String>> {
 
-	Logger log = org.slf4j.LoggerFactory.getLogger(ExceptionHandlerResult.class);
-
-	@Override
-	default Result<String> createResultWithException(Exception e, String message) {
-		log.error("", e);
-		return Result.fail(message);
-	}
-
+    @Override
+    default Result<String> createResultWithException(Exception e, String message, boolean isError) {
+        if (isError) {
+            return Result.error(message);
+        } else {
+            return Result.fail(message);
+        }
+    }
 }

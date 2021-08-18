@@ -38,7 +38,11 @@ public class Base64Util {
      * @return base64编码密文
      */
     public static byte[] decode(String data) {
-        return StringUtils.isEmpty(data) ? null : Base64.getDecoder().decode(data);
+        try {
+            return StringUtils.isEmpty(data) ? null : Base64.getDecoder().decode(data);
+        } catch (IllegalArgumentException e) {
+            return null;
+        }
     }
 
     /**
