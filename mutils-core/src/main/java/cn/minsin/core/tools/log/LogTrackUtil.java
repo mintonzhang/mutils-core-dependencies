@@ -231,6 +231,10 @@ public class LogTrackUtil {
          */
         private String errorCode = "10000";
         /**
+         * 当前线程名称
+         */
+        private String threadName = Thread.currentThread().getName();
+        /**
          * 异常详细
          */
         private String errorMsg;
