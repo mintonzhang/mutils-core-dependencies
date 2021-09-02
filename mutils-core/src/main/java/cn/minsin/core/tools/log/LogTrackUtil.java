@@ -275,6 +275,7 @@ public class LogTrackUtil {
             return "\r\n" +
                     "{\r\n\"ip\":\"" + IP + "\"," +
                     "\r\n\"systemType\": \"" + SYSTEM_TYPE + "\"," +
+                    "\r\n\"threadName\": \"" + threadName + "\"," +
                     "\r\n\"osName\": \"" + OS_NAME + "\"," +
                     "\r\n\"osVersion\": \"" + OS_VERSION + "\"," +
                     "\r\n\"osArch\": \"" + OS_ARCH + "\"," +
