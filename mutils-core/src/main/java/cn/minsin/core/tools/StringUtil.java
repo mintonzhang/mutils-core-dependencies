@@ -6,10 +6,13 @@ import lombok.NonNull;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -317,9 +320,70 @@ public class StringUtil extends StringUtils {
         return Lists.newArrayList(str.split(regex));
     }
 
+    /**
+     * 分隔字符串
+     *
+     * @param str   原始字符串
+     * @param regex 分隔符
+     * @param box   容器
+     * @param fc    转换函数
+     */
+    public static <E, C extends Collection<E>> C splitStr(String str, @NonNull String regex, C box, Function<String, E> fc) {
+        if (isBlank(str)) {
+            return box;
+        }
+        String[] split = str.split(regex);
+        for (String s : split) {
+            box.add(fc.apply(s));
+        }
+        return box;
+    }
+
+    /**
+     * 分隔字符串
+     *
+     * @param str   原始字符串
+     * @param regex 分隔符
+     * @param fc    转换函数
+     */
+    public static <E> Set<E> splitStr2Set(String str, @NonNull String regex, Function<String, E> fc) {
+        if (isBlank(str)) {
+            return Collections.emptySet();
+        }
+        String[] split = str.split(regex);
+        Set<E> box = new HashSet<>(split.length);
+        for (String s : split) {
+            box.add(fc.apply(s));
+        }
+        return box;
+    }
+
+    /**
+     * 分隔字符串
+     *
+     * @param str   原始字符串
+     * @param regex 分隔符
+     * @param fc    转换函数
+     */
+    public static <E> List<E> splitStr2List(String str, @NonNull String regex, Function<String, E> fc) {
+        if (isBlank(str)) {
+            return Collections.emptyList();
+        }
+        String[] split = str.split(regex);
+        List<E> box = new ArrayList<>(split.length);
+        for (String s : split) {
+            box.add(fc.apply(s));
+        }
+        return box;
+    }
+
     public static <T> List<T> splitStr(String str, String regex, Function<String, T> function) {
 
         final List<String> raw = splitStr(str, regex);
         return FunctionalInterfaceUtil.convertList(raw, function);
+    }
+
+    public static void main(String[] args) {
+        ArrayList<String> strings = splitStr("1,2,3", ",", new ArrayList<>(), e -> e);
     }
 }
