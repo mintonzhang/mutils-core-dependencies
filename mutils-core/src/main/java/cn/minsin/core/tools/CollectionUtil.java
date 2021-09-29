@@ -8,10 +8,12 @@ import java.util.Collections;
 import java.util.List;
 
 /**
+ * 更多查看{@link CollectionUtils}
+ *
  * @author minton.zhang
  * @since 2021/6/9 10:59
  */
-public interface CollectionsUtil {
+public interface CollectionUtil {
 
 
     static <T> void addIgnoreNull(final Collection<T> collection, final T object, boolean throwException) {
@@ -42,5 +44,24 @@ public interface CollectionsUtil {
             list.add(object);
         }
         return list;
+    }
+
+    static boolean isAnyEmpty(final Collection<?>... collections) {
+        for (Collection<?> collection : collections) {
+            if (CollectionUtils.isEmpty(collection)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    static boolean isAllEmpty(final Collection<?>... collections) {
+
+        for (Collection<?> collection : collections) {
+            if (CollectionUtils.isNotEmpty(collection)) {
+                return false;
+            }
+        }
+        return true;
     }
 }

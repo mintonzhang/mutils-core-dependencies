@@ -8,7 +8,6 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -315,7 +314,7 @@ public class StringUtil extends StringUtils {
 
     public static List<String> splitStr(String str, @NonNull String regex) {
         if (isBlank(str)) {
-            return Collections.emptyList();
+            return new ArrayList<>();
         }
         return Lists.newArrayList(str.split(regex));
     }
@@ -348,7 +347,7 @@ public class StringUtil extends StringUtils {
      */
     public static <E> Set<E> splitStr2Set(String str, @NonNull String regex, Function<String, E> fc) {
         if (isBlank(str)) {
-            return Collections.emptySet();
+            return new HashSet<>();
         }
         String[] split = str.split(regex);
         Set<E> box = new HashSet<>(split.length);
@@ -367,7 +366,7 @@ public class StringUtil extends StringUtils {
      */
     public static <E> List<E> splitStr2List(String str, @NonNull String regex, Function<String, E> fc) {
         if (isBlank(str)) {
-            return Collections.emptyList();
+            return new ArrayList<>();
         }
         String[] split = str.split(regex);
         List<E> box = new ArrayList<>(split.length);
@@ -381,9 +380,5 @@ public class StringUtil extends StringUtils {
 
         final List<String> raw = splitStr(str, regex);
         return FunctionalInterfaceUtil.convertList(raw, function);
-    }
-
-    public static void main(String[] args) {
-        ArrayList<String> strings = splitStr("1,2,3", ",", new ArrayList<>(), e -> e);
     }
 }
