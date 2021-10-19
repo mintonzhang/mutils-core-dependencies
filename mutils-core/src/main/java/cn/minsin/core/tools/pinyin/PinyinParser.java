@@ -174,7 +174,7 @@ public class PinyinParser {
         private String[] firstPinyin;
 
 
-        private String[] getAllArray() {
+        public String[] getAllArray() {
             return ArrayUtils.addAll(firstPinyin, fullPinyin);
         }
     }
