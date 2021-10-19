@@ -115,5 +115,13 @@
             <scope>provided</scope>
         </dependency>
 
+        <!-- 拼音-->
+        <dependency>
+            <groupId>io.github.zhangethan</groupId>
+            <artifactId>pinyin4j</artifactId>
+            <version>2.6.1</version>
+            <scope>provided</scope>
+        </dependency>
+
     </dependencies>
 </project>
