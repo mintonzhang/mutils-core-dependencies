@@ -1,6 +1,7 @@
 package cn.minsin.core.tools.pinyin;
 
 import cn.minsin.core.override.JsonString;
+import cn.minsin.core.tools._assert.CA;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,6 +11,7 @@ import net.sourceforge.pinyin4j.format.HanyuPinyinCaseType;
 import net.sourceforge.pinyin4j.format.HanyuPinyinOutputFormat;
 import net.sourceforge.pinyin4j.format.HanyuPinyinToneType;
 import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombination;
+import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,6 +68,7 @@ public class PinyinParser {
      * 解析 包含多音字
      */
     public PinyinParseResult parsing(String str, boolean includeMultiLetter) {
+        CA.isNull(str, "被解析的字符串不运行为空");
         if (includeMultiLetter) {
             List<String[]> result = parseStr2List(str, e -> e, e -> new String[]{String.valueOf(e)});
 
@@ -169,5 +172,10 @@ public class PinyinParser {
          * 拼音首字母
          */
         private String[] firstPinyin;
+
+
+        private String[] getAllArray() {
+            return ArrayUtils.addAll(firstPinyin, fullPinyin);
+        }
     }
 }
