@@ -89,9 +89,11 @@ public class PinyinParser {
                 try {
                     // 取得当前汉字的所有全拼
                     String[] array = PinyinHelper.toHanyuPinyinStringArray(c, hanyuPinyinOutputFormat);
-                    if (array != null) {
-                        result.add(findConvert.apply(array));
+                    if (array == null || array.length == 0) {
+                        continue;
                     }
+                    result.add(findConvert.apply(array));
+
                 } catch (BadHanyuPinyinOutputFormatCombination e) {
                     // 无法解析
                 }

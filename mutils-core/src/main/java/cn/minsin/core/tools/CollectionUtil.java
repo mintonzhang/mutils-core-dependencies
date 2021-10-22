@@ -1,11 +1,14 @@
 package cn.minsin.core.tools;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import org.apache.commons.collections4.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 /**
  * 更多查看{@link CollectionUtils}
@@ -64,4 +67,25 @@ public interface CollectionUtil {
         }
         return true;
     }
+
+    static <T> Set<T> newSingleHashSet(final T object) {
+
+        Set<T> set = Sets.newHashSet();
+        if (object != null) {
+            set.add(object);
+        }
+        return set;
+
+    }
+
+    static <T> List<T> newSingleArrayList(final T object) {
+
+        List<T> set = Lists.newArrayList();
+        if (object != null) {
+            set.add(object);
+        }
+        return set;
+    }
+
+
 }
