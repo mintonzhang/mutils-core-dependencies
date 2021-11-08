@@ -1,6 +1,7 @@
 package cn.minsin.core.tools.log.v2;
 
 import cn.minsin.core.tools.FormatStringUtil;
+import cn.minsin.core.tools.StringUtil;
 import lombok.NonNull;
 import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
@@ -32,7 +33,7 @@ public class LoggerTrackHelper {
 
 
     public static void error(Throwable throwable, String errorStack, String errorMessage) {
-        logger.error(errorMessage + "\n\n" + errorStack);
+        logger.error(errorMessage + "\n" + errorStack);
         List<ErrorReporter> reporter = loggerHelperConfig.getErrorReporters();
         ExecutorService executorService = loggerHelperConfig.getExecutorService();
 
@@ -70,12 +71,13 @@ public class LoggerTrackHelper {
     }
 
     public static void error(@NonNull String message, Throwable error) {
-        error(error, null, message);
+        String errorStack = loggerHelperConfig.getLoggerBodyFormatter().getErrorMessage(error, loggerHelperConfig);
+        error(error, errorStack, message);
     }
 
     public static void error(@NonNull String message, Object... param) {
         String msg = FormatStringUtil.format(message, param);
-        error(null, null, msg);
+        error(null, StringUtil.EMPTY, msg);
     }
 
     public static void warn(@NonNull String message, Object... param) {
