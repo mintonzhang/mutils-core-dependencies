@@ -3,11 +3,10 @@ package cn.minsin.core.tools.log.v2;
 import cn.minsin.core.tools.FormatStringUtil;
 import cn.minsin.core.tools.StringUtil;
 import lombok.NonNull;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -26,6 +25,7 @@ import java.util.concurrent.ExecutorService;
  * @author minton.zhang
  * @since 2020/12/16 上午11:28
  */
+@Slf4j
 public class LoggerTrackHelper {
 
     static Logger logger;
@@ -126,15 +126,6 @@ public class LoggerTrackHelper {
         logger.info(message, param);
     }
 
-    public static String parserException(Throwable e) {
-        final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        try (PrintStream printStream = new PrintStream(byteArrayOutputStream)) {
-            e.printStackTrace(printStream);
-        } catch (Exception e1) {
-            return e1.getMessage();
-        }
-        return byteArrayOutputStream.toString().replace("\r\n", LoggerConstant.LOG_SPLIT + "\r\n");
-    }
 
     public static String formatDate() {
         return LocalDateTime.now().format(LoggerConstant.DATE_TIME_FORMATTER);
