@@ -16,8 +16,10 @@ import java.util.concurrent.ExecutorService;
 public class LoggerHelperConfig {
 
     private final Logger logger;
-    private final String systemName;
-    private final String currentProfile;
+    @Setter
+    private String systemName;
+    @Setter
+    private String currentProfile;
     private final List<ErrorReporter> errorReporters = new ArrayList<>(3);
     /**
      * 推送错误报告时所使用的的线程池 如果不设置则使用当前线程
@@ -26,10 +28,8 @@ public class LoggerHelperConfig {
     @Setter
     private BaseLoggerBodyFormatter loggerBodyFormatter = new DefaultLoggerBodyFormatter();
 
-    public LoggerHelperConfig(Logger logger, String profile, ExecutorService executorService) {
+    public LoggerHelperConfig(Logger logger, ExecutorService executorService) {
         this.logger = logger;
-        this.systemName = profile;
-        this.currentProfile = profile;
         this.executorService = executorService;
     }
 

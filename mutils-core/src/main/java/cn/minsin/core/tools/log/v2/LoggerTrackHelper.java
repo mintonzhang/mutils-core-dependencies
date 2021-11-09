@@ -33,7 +33,7 @@ public class LoggerTrackHelper {
 
 
     public static void error(Throwable throwable, String errorStack, String errorMessage) {
-        logger.error(errorStack);
+        logger.error(errorMessage, throwable);
         List<ErrorReporter> reporter = loggerHelperConfig.getErrorReporters();
         ExecutorService executorService = loggerHelperConfig.getExecutorService();
 
