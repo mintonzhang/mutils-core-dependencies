@@ -1,4 +1,4 @@
-package cn.minsin.core.tools.log.v2;
+package cn.minsin.core.tools.log.common;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

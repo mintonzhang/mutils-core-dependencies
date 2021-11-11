@@ -32,4 +32,6 @@ public interface LoggerNameCache {
             return LoggerFactory.getLogger(this.getLogName());
         }
     }
+
+
 }

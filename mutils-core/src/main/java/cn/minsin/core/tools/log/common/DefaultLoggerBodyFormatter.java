@@ -1,5 +1,6 @@
-package cn.minsin.core.tools.log.v2;
+package cn.minsin.core.tools.log.common;
 
+import cn.minsin.core.tools.log.v2.LoggerHelperConfig;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;

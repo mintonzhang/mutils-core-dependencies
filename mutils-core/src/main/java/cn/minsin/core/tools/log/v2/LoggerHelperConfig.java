@@ -1,5 +1,8 @@
 package cn.minsin.core.tools.log.v2;
 
+import cn.minsin.core.tools.log.common.BaseLoggerBodyFormatter;
+import cn.minsin.core.tools.log.common.DefaultLoggerBodyFormatter;
+import cn.minsin.core.tools.log.common.ErrorReporter;
 import lombok.Getter;
 import lombok.Setter;
 import org.slf4j.Logger;
@@ -20,6 +23,7 @@ public class LoggerHelperConfig {
     private String systemName;
     @Setter
     private String currentProfile;
+
     private final List<ErrorReporter> errorReporters = new ArrayList<>(3);
     /**
      * 推送错误报告时所使用的的线程池 如果不设置则使用当前线程

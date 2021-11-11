@@ -6,6 +6,7 @@ import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 
 import java.lang.reflect.Constructor;
+import java.util.Optional;
 
 import static cn.minsin.core.tools.FormatStringUtil.format;
 
@@ -72,6 +73,13 @@ public abstract class CA {
      */
     public static void isNull(Object object, String msg, Object... param) {
         withCustomException(StringUtil.isBlank(object), defaultException, format(msg, param));
+    }
+
+    /**
+     * 如果object是null,则抛出默认异常
+     */
+    public static <DATA> DATA get(Optional<DATA> option, String msg, Object... param) {
+        return option.orElseThrow(() -> CA.createDefaultInstance(format(msg, param)));
     }
 
     /**
