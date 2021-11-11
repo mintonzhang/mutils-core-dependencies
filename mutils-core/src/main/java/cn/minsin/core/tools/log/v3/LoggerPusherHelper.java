@@ -2,9 +2,9 @@ package cn.minsin.core.tools.log.v3;
 
 import cn.minsin.core.tools.FormatStringUtil;
 import cn.minsin.core.tools.StringUtil;
-import cn.minsin.core.tools.log.common.ErrorReporter;
 import cn.minsin.core.tools.log.common.LoggerConstant;
-import cn.minsin.core.tools.log.v2.LoggerHelperConfig;
+import cn.minsin.core.tools.log.common.LoggerHelperConfig;
+import cn.minsin.core.tools.log.common.reporeies.ErrorReporter;
 import lombok.NonNull;
 import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
@@ -22,7 +22,7 @@ import java.util.concurrent.ExecutorService;
 public class LoggerPusherHelper {
 
     private final static ConcurrentHashMap<String, Logger> LOGGER_MAP = new ConcurrentHashMap<>();
-    static LoggerHelperConfig DEFAULT_LOGGER_CONFIG;
+    public static LoggerHelperConfig DEFAULT_LOGGER_CONFIG;
     public final Logger logger;
     public final LoggerHelperConfig loggerHelperConfig;
 
@@ -70,19 +70,10 @@ public class LoggerPusherHelper {
         if (CollectionUtils.isNotEmpty(reporter)) {
             for (ErrorReporter errorReporter : reporter) {
                 if (executorService != null) {
-                    executorService.execute(() -> {
-                        try {
-                            errorReporter.report(throwable, errorMessage, errorStack);
-                        } catch (Exception e) {
-                            logger.error("错误报告上报失败 class{} ", errorReporter.getClass(), e);
-                        }
-                    });
+                    executorService.execute(errorReporter.getRunnable(throwable, errorMessage, errorStack));
                 } else {
-                    try {
-                        errorReporter.report(throwable, errorMessage, errorStack);
-                    } catch (Exception e) {
-                        logger.error("错误报告上报失败 class{} ", errorReporter.getClass(), e);
-                    }
+                    errorReporter.getRunnable(throwable, errorMessage, errorStack).run();
+
                 }
             }
         }

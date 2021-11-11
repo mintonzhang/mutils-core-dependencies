@@ -15,6 +15,7 @@ import java.nio.ByteBuffer;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.nio.channels.WritableByteChannel;
+import java.nio.charset.StandardCharsets;
 
 /**
  * 文件流相关工具类  可参考{@link IOUtils}
@@ -57,20 +58,34 @@ public class IOUtil extends IOUtils {
         }
     }
 
-	/**
-	 * 将文件流转成字节缓存在内存中，可以让流多次使用。使用{@link ByteArrayInputStream} 创建新的输入流
-	 */
-	public static byte[] readAllBytes(InputStream in) throws IOException {
-		try (InputStream inputStream = in) {
-			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			byte[] buffer = new byte[1024];
-			int len;
-			while ((len = inputStream.read(buffer)) > -1) {
-				baos.write(buffer, 0, len);
-			}
-			baos.flush();
-			return baos.toByteArray();
-		}
+    /**
+     * 将文件流转成字节缓存在内存中，可以让流多次使用。使用{@link ByteArrayInputStream} 创建新的输入流
+     */
+    public static byte[] readAllBytes(InputStream in) throws IOException {
+        try (InputStream inputStream = in) {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            byte[] buffer = new byte[1024];
+            int len;
+            while ((len = inputStream.read(buffer)) > -1) {
+                baos.write(buffer, 0, len);
+            }
+            baos.flush();
+            return baos.toByteArray();
+        }
+    }
+
+    /**
+     * 将文件流转成字节缓存在内存中，可以让流多次使用。使用{@link ByteArrayInputStream} 创建新的输入流
+     */
+    public static String readAllBytes2String(InputStream in) throws IOException {
+        byte[] bytes = IOUtil.readAllBytes(in);
+
+        try {
+            return new String(bytes, StandardCharsets.UTF_8);
+        } finally {
+            close(in);
+        }
+
     }
 
     /**

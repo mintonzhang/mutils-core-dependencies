@@ -2,8 +2,9 @@ package cn.minsin.core.tools.log.v2;
 
 import cn.minsin.core.tools.FormatStringUtil;
 import cn.minsin.core.tools.StringUtil;
-import cn.minsin.core.tools.log.common.ErrorReporter;
 import cn.minsin.core.tools.log.common.LoggerConstant;
+import cn.minsin.core.tools.log.common.LoggerHelperConfig;
+import cn.minsin.core.tools.log.common.reporeies.ErrorReporter;
 import lombok.NonNull;
 import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
@@ -28,31 +29,22 @@ import java.util.concurrent.ExecutorService;
  */
 public class LoggerTrackHelper {
 
-    static Logger logger;
-    static LoggerHelperConfig loggerHelperConfig;
+    public static Logger logger;
+    public static LoggerHelperConfig DEFAULT_LOGGER_CONFIG;
 
 
     public static void error(Throwable throwable, String errorStack, String errorMessage) {
         logger.error(errorMessage, throwable);
-        List<ErrorReporter> reporter = loggerHelperConfig.getErrorReporters();
-        ExecutorService executorService = loggerHelperConfig.getExecutorService();
+        List<ErrorReporter> reporter = DEFAULT_LOGGER_CONFIG.getErrorReporters();
+        ExecutorService executorService = DEFAULT_LOGGER_CONFIG.getExecutorService();
 
         if (CollectionUtils.isNotEmpty(reporter)) {
             for (ErrorReporter errorReporter : reporter) {
                 if (executorService != null) {
-                    executorService.execute(() -> {
-                        try {
-                            errorReporter.report(throwable, errorMessage, errorStack);
-                        } catch (Exception e) {
-                            logger.error("错误报告上报失败 class{} ", errorReporter.getClass(), e);
-                        }
-                    });
+                    executorService.execute(errorReporter.getRunnable(throwable, errorMessage, errorStack));
                 } else {
-                    try {
-                        errorReporter.report(throwable, errorMessage, errorStack);
-                    } catch (Exception e) {
-                        logger.error("错误报告上报失败 class{} ", errorReporter.getClass(), e);
-                    }
+                    errorReporter.getRunnable(throwable, errorMessage, errorStack).run();
+
                 }
             }
         }
@@ -60,18 +52,18 @@ public class LoggerTrackHelper {
 
 
     public static void error(Throwable error) {
-        String stackMessage = loggerHelperConfig.getLoggerBodyFormatter().getErrorMessage(error, loggerHelperConfig);
+        String stackMessage = DEFAULT_LOGGER_CONFIG.getLoggerBodyFormatter().getErrorMessage(error, DEFAULT_LOGGER_CONFIG);
         error(error, stackMessage, error.getMessage());
     }
 
     public static void error(Throwable error, @NonNull String message, Object... param) {
         String msg = FormatStringUtil.format(message, param);
-        String stackMessage = loggerHelperConfig.getLoggerBodyFormatter().getErrorMessage(error, loggerHelperConfig);
+        String stackMessage = DEFAULT_LOGGER_CONFIG.getLoggerBodyFormatter().getErrorMessage(error, DEFAULT_LOGGER_CONFIG);
         error(error, stackMessage, msg + "\n" + error.getMessage());
     }
 
     public static void error(@NonNull String message, Throwable error) {
-        String errorStack = loggerHelperConfig.getLoggerBodyFormatter().getErrorMessage(error, loggerHelperConfig);
+        String errorStack = DEFAULT_LOGGER_CONFIG.getLoggerBodyFormatter().getErrorMessage(error, DEFAULT_LOGGER_CONFIG);
         error(error, errorStack, message);
     }
 

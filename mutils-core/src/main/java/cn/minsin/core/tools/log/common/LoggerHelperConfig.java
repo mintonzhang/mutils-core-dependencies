@@ -1,8 +1,8 @@
-package cn.minsin.core.tools.log.v2;
+package cn.minsin.core.tools.log.common;
 
-import cn.minsin.core.tools.log.common.BaseLoggerBodyFormatter;
-import cn.minsin.core.tools.log.common.DefaultLoggerBodyFormatter;
-import cn.minsin.core.tools.log.common.ErrorReporter;
+import cn.minsin.core.tools.log.common.reporeies.ErrorReporter;
+import cn.minsin.core.tools.log.v2.LoggerTrackHelper;
+import cn.minsin.core.tools.log.v3.LoggerPusherHelper;
 import lombok.Getter;
 import lombok.Setter;
 import org.slf4j.Logger;
@@ -38,7 +38,6 @@ public class LoggerHelperConfig {
     }
 
     public LoggerHelperConfig addErrorReport(ErrorReporter errorReporter) {
-        errorReporter.setLoggerHelperConfig(this);
         errorReporters.add(errorReporter);
         return this;
     }
@@ -46,7 +45,11 @@ public class LoggerHelperConfig {
 
     public void initLoggerHelper() {
         LoggerTrackHelper.logger = logger;
-        LoggerTrackHelper.loggerHelperConfig = this;
+        LoggerTrackHelper.DEFAULT_LOGGER_CONFIG = this;
+    }
+
+    public void initLoggerPusherHelper() {
+        LoggerPusherHelper.DEFAULT_LOGGER_CONFIG = this;
     }
 
 }
