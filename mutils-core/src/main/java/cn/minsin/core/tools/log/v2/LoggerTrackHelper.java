@@ -26,6 +26,7 @@ import java.util.concurrent.ExecutorService;
  * @author minton.zhang
  * @since 2020/12/16 上午11:28
  */
+@Deprecated
 public class LoggerTrackHelper {
 
     public static Logger logger;

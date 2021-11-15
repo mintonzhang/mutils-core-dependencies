@@ -12,6 +12,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author minton.zhang
  * @since 2021/11/1 10:18
  */
+@Deprecated
 @FunctionalInterface
 public interface LoggerNameCache {
 
