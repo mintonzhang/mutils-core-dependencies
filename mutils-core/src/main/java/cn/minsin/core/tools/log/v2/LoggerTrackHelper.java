@@ -1,10 +1,9 @@
 package cn.minsin.core.tools.log.v2;
 
 import cn.minsin.core.tools.FormatStringUtil;
-import cn.minsin.core.tools.StringUtil;
 import cn.minsin.core.tools.log.common.LoggerConstant;
 import cn.minsin.core.tools.log.common.LoggerHelperConfig;
-import cn.minsin.core.tools.log.common.reporeies.ErrorReporter;
+import cn.minsin.core.tools.log.common.reporeies.BaseErrorReporter;
 import lombok.NonNull;
 import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
@@ -33,17 +32,17 @@ public class LoggerTrackHelper {
     public static LoggerHelperConfig DEFAULT_LOGGER_CONFIG;
 
 
-    public static void error(Throwable throwable, String errorStack, String errorMessage) {
+    public static void error(Throwable throwable, String errorMessage) {
         logger.error(errorMessage, throwable);
-        List<ErrorReporter> reporter = DEFAULT_LOGGER_CONFIG.getErrorReporters();
+        List<BaseErrorReporter> reporter = DEFAULT_LOGGER_CONFIG.getBaseErrorReporters();
         ExecutorService executorService = DEFAULT_LOGGER_CONFIG.getExecutorService();
 
         if (CollectionUtils.isNotEmpty(reporter)) {
-            for (ErrorReporter errorReporter : reporter) {
+            for (BaseErrorReporter baseErrorReporter : reporter) {
                 if (executorService != null) {
-                    executorService.execute(errorReporter.getRunnable(throwable, errorMessage, errorStack));
+                    executorService.execute(baseErrorReporter.getRunnable(throwable, errorMessage));
                 } else {
-                    errorReporter.getRunnable(throwable, errorMessage, errorStack).run();
+                    baseErrorReporter.getRunnable(throwable, errorMessage).run();
 
                 }
             }
@@ -69,7 +68,7 @@ public class LoggerTrackHelper {
 
     public static void error(@NonNull String message, Object... param) {
         String msg = FormatStringUtil.format(message, param);
-        error(null, StringUtil.EMPTY, msg);
+        error(null, msg);
     }
 
     public static void warn(@NonNull String message, Object... param) {

@@ -1,15 +1,15 @@
 package cn.minsin.core.tools.log.v3;
 
 import cn.minsin.core.tools.FormatStringUtil;
-import cn.minsin.core.tools.StringUtil;
 import cn.minsin.core.tools.log.common.LoggerConstant;
 import cn.minsin.core.tools.log.common.LoggerHelperConfig;
-import cn.minsin.core.tools.log.common.reporeies.ErrorReporter;
+import cn.minsin.core.tools.log.common.reporeies.BaseErrorReporter;
+import lombok.Getter;
 import lombok.NonNull;
-import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
@@ -22,9 +22,25 @@ import java.util.concurrent.ExecutorService;
 public class LoggerPusherHelper {
 
     private final static ConcurrentHashMap<String, Logger> LOGGER_MAP = new ConcurrentHashMap<>();
-    public static LoggerHelperConfig DEFAULT_LOGGER_CONFIG;
-    public final Logger logger;
-    public final LoggerHelperConfig loggerHelperConfig;
+    private static LoggerHelperConfig DEFAULT_LOGGER_CONFIG;
+    private static boolean isSetDefaultConfig = false;
+    @Getter
+    private final Logger logger;
+    @Getter
+    private final LoggerHelperConfig loggerHelperConfig;
+
+    /**
+     * 设置默认的config 只允许设置一次
+     */
+    public static void setDefaultLoggerConfig(LoggerHelperConfig defaultLoggerConfig) {
+
+
+        if (!isSetDefaultConfig) {
+            DEFAULT_LOGGER_CONFIG = defaultLoggerConfig;
+            isSetDefaultConfig = true;
+        }
+    }
+
 
     public LoggerPusherHelper(String loggerName, LoggerHelperConfig loggerHelperConfig) {
         this.logger = this.getLogger(loggerName);
@@ -62,19 +78,16 @@ public class LoggerPusherHelper {
 
     //********************************分割线****************************************//
 
-    public void error(Throwable throwable, String errorStack, String errorMessage) {
+    public void error(Throwable throwable, String errorMessage) {
         logger.error(errorMessage, throwable);
-        List<ErrorReporter> reporter = loggerHelperConfig.getErrorReporters();
+        List<BaseErrorReporter> reporter = loggerHelperConfig.getBaseErrorReporters();
         ExecutorService executorService = loggerHelperConfig.getExecutorService();
 
-        if (CollectionUtils.isNotEmpty(reporter)) {
-            for (ErrorReporter errorReporter : reporter) {
-                if (executorService != null) {
-                    executorService.execute(errorReporter.getRunnable(throwable, errorMessage, errorStack));
-                } else {
-                    errorReporter.getRunnable(throwable, errorMessage, errorStack).run();
-
-                }
+        for (BaseErrorReporter baseErrorReporter : reporter) {
+            if (executorService != null) {
+                executorService.execute(baseErrorReporter.getRunnable(throwable, errorMessage));
+            } else {
+                baseErrorReporter.getRunnable(throwable, errorMessage).run();
             }
         }
     }
@@ -98,7 +111,7 @@ public class LoggerPusherHelper {
 
     public void error(@NonNull String message, Object... param) {
         String msg = FormatStringUtil.format(message, param);
-        error(null, StringUtil.EMPTY, msg);
+        error(null, msg);
     }
 
 
@@ -151,5 +164,18 @@ public class LoggerPusherHelper {
 
     public String formatDate() {
         return LocalDateTime.now().format(LoggerConstant.DATE_TIME_FORMATTER);
+    }
+
+
+    public void justReport(Serializable object) {
+//        ExecutorService executorService = loggerHelperConfig.getExecutorService();
+//        for (ErrorReporter errorReporter : loggerHelperConfig.getErrorReporters()) {
+//            if (executorService != null) {
+//                executorService.execute(errorReporter.getRunnable(throwable, errorMessage, errorStack));
+//            } else {
+//                errorReporter.getRunnable(throwable, errorMessage, errorStack).run();
+//
+//            }
+//        }
     }
 }

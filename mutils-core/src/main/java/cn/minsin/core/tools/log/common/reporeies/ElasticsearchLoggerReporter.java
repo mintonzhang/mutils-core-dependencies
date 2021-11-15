@@ -1,17 +1,15 @@
-package cn.minsin.core.tools.log.common.reporeies.es;
+package cn.minsin.core.tools.log.common.reporeies;
 
 import cn.minsin.core.tools.IOUtil;
-import cn.minsin.core.tools.log.common.LoggerHelperConfig;
-import cn.minsin.core.tools.log.common.reporeies.ErrorReporter;
-import cn.minsin.core.tools.log.common.reporeies.es.func.SaveRequestConvertFunction;
-import cn.minsin.core.tools.log.common.reporeies.es.header.HttpRequestHeader;
+import cn.minsin.core.tools.log.common.reporeies.es.ElasticsearchLoggerConfig;
 import cn.minsin.core.tools.log.common.reporeies.es.request.BaseSaveRequest;
-import cn.minsin.core.tools.tuple.Tuple2;
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;
 import lombok.Getter;
 
+import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.io.Serializable;
 import java.io.Writer;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -24,20 +22,13 @@ import java.util.List;
  * @since 2021/7/20 10:22
  */
 @Getter
-public class ElasticsearchInserter extends ErrorReporter {
+public class ElasticsearchLoggerReporter extends BaseErrorReporter {
 
     public static final List<Integer> SUCCESS_CODES = Lists.newArrayList(200, 201, 203);
     private final ElasticsearchLoggerConfig elasticConfig;
-    private final SaveRequestConvertFunction<BaseSaveRequest> saveRequestConvertFunction;
 
-    public ElasticsearchInserter(
-            ElasticsearchLoggerConfig config,
-            LoggerHelperConfig logHelperConfig,
-            SaveRequestConvertFunction<BaseSaveRequest> saveRequestConvertFunction
-    ) {
-        super(logHelperConfig);
+    public ElasticsearchLoggerReporter(ElasticsearchLoggerConfig config) {
         this.elasticConfig = config;
-        this.saveRequestConvertFunction = saveRequestConvertFunction;
     }
 
 
@@ -52,13 +43,24 @@ public class ElasticsearchInserter extends ErrorReporter {
     }
 
     @Override
-    protected void doPushLogic(Throwable throwable, String errorMsg, String errorDetail) throws Exception {
+    protected void doPushLogic(Throwable throwable, String errorMsg) throws Exception {
 
-        Tuple2<String, BaseSaveRequest> apply = saveRequestConvertFunction.apply(throwable);
+        BaseSaveRequest apply = elasticConfig.getFormatFunction().apply(throwable, errorMsg);
 
-        String index = apply.getT1();
+        String body = JSON.toJSONString(apply);
 
-        URL url = this.createUrl(elasticConfig.getUrl(), index, elasticConfig.getIndexType());
+        this.pushingToElastic(body);
+    }
+
+
+    @Override
+    protected void doPushLogic(Serializable jsonObject) throws Exception {
+        this.pushingToElastic(JSON.toJSONString(jsonObject));
+    }
+
+    protected void pushingToElastic(String jsonData) throws IOException {
+        String indexName = elasticConfig.getIndexNameErrorConvert().apply(elasticConfig.getIndexName());
+        URL url = this.createUrl(elasticConfig.getUrl(), indexName, elasticConfig.getIndexType());
         HttpURLConnection urlConnection = (HttpURLConnection) (url.openConnection());
         urlConnection.setDoInput(true);
         urlConnection.setDoOutput(true);
@@ -66,13 +68,12 @@ public class ElasticsearchInserter extends ErrorReporter {
         urlConnection.setConnectTimeout(elasticConfig.getConnectTimeout());
         urlConnection.setRequestMethod("POST");
         try {
-            String body = JSON.toJSONString(apply.getT2()).concat("\n");
+            String body = jsonData.concat("\n");
 
-            for (HttpRequestHeader header : elasticConfig.getHeaders()) {
-                urlConnection.setRequestProperty(header.getKey(), header.getValue());
-            }
+            elasticConfig.getHeaders().forEach(urlConnection::setRequestProperty);
+
             if (elasticConfig.getAuthentication() != null) {
-                elasticConfig.getAuthentication().addAuth(urlConnection, body);
+                elasticConfig.getAuthentication().authentication(urlConnection, body);
             }
             Writer writer = new OutputStreamWriter(urlConnection.getOutputStream(), StandardCharsets.UTF_8);
             writer.write(body);
@@ -87,9 +88,7 @@ public class ElasticsearchInserter extends ErrorReporter {
         } finally {
             urlConnection.disconnect();
         }
-
     }
-
 }
 
 

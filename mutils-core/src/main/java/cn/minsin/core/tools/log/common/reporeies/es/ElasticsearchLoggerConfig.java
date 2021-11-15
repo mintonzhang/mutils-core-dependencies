@@ -1,12 +1,14 @@
 package cn.minsin.core.tools.log.common.reporeies.es;
 
 import cn.minsin.core.tools.log.common.reporeies.es.authentication.Authentication;
-import cn.minsin.core.tools.log.common.reporeies.es.header.HttpRequestHeader;
+import cn.minsin.core.tools.log.common.reporeies.es.request.BaseSaveRequest;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 
 /**
  * @author minton.zhang
@@ -31,14 +33,37 @@ public class ElasticsearchLoggerConfig implements Cloneable {
     private Authentication authentication;
     private int maxQueueSize = 100 * 1024 * 1024;
 
-    private Collection<HttpRequestHeader> headers = new ArrayList<>(2);
+    private Map<String, String> headers = new HashMap<>(2);
+
+    private String indexName;
+
+    /**
+     * 正常index格式化函数
+     */
+    private Function<String, String> indexNameNormalConvert = name -> name + "_" + profile;
+
+    /**
+     * 异常index格式化函数
+     */
+    private Function<String, String> indexNameErrorConvert = name -> name + "_error_" + profile;
+
+    /**
+     * 格式化推送内容
+     */
+    private BiFunction<Throwable, String, BaseSaveRequest> formatFunction = (e, errorMes) -> {
+        BaseSaveRequest baseSaveRequest = new BaseSaveRequest();
+        baseSaveRequest.parseErrorStack(e);
+        baseSaveRequest.setErrorMessage(errorMes);
+        return baseSaveRequest;
+    };
 
 
     {
-        headers.add(new HttpRequestHeader("Content-Type", "application/json"));
+        headers.put("Content-Type", "application/json");
     }
 
     public static ElasticsearchLoggerConfig createSetting(String url, String profile) {
+
         ElasticsearchLoggerConfig elasticSettings = new ElasticsearchLoggerConfig();
         elasticSettings.setUrl(url);
         elasticSettings.setProfile(profile);

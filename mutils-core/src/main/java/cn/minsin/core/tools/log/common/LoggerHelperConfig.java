@@ -1,6 +1,6 @@
 package cn.minsin.core.tools.log.common;
 
-import cn.minsin.core.tools.log.common.reporeies.ErrorReporter;
+import cn.minsin.core.tools.log.common.reporeies.BaseErrorReporter;
 import cn.minsin.core.tools.log.v2.LoggerTrackHelper;
 import cn.minsin.core.tools.log.v3.LoggerPusherHelper;
 import lombok.Getter;
@@ -24,7 +24,7 @@ public class LoggerHelperConfig {
     @Setter
     private String currentProfile;
 
-    private final List<ErrorReporter> errorReporters = new ArrayList<>(3);
+    private final List<BaseErrorReporter> baseErrorReporters = new ArrayList<>(3);
     /**
      * 推送错误报告时所使用的的线程池 如果不设置则使用当前线程
      */
@@ -37,8 +37,9 @@ public class LoggerHelperConfig {
         this.executorService = executorService;
     }
 
-    public LoggerHelperConfig addErrorReport(ErrorReporter errorReporter) {
-        errorReporters.add(errorReporter);
+    public LoggerHelperConfig addErrorReport(BaseErrorReporter baseErrorReporter) {
+        baseErrorReporter.setLoggerHelperConfig(this);
+        baseErrorReporters.add(baseErrorReporter);
         return this;
     }
 
@@ -49,7 +50,7 @@ public class LoggerHelperConfig {
     }
 
     public void initLoggerPusherHelper() {
-        LoggerPusherHelper.DEFAULT_LOGGER_CONFIG = this;
+        LoggerPusherHelper.setDefaultLoggerConfig(this);
     }
 
 }
