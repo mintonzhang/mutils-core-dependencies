@@ -1,11 +1,10 @@
 package cn.minsin.core.tools.log.common.reporeies;
 
 import cn.minsin.core.tools.StringUtil;
+import cn.minsin.core.tools.log.common.BaseJsonObjectReportRequest;
 import cn.minsin.core.tools.log.common.LoggerHelperConfig;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
-
-import java.io.Serializable;
 
 /**
  * @author minton.zhang
@@ -24,8 +23,9 @@ public abstract class BaseErrorReporter {
 
     protected abstract void doPushLogic(Throwable throwable, String errorMsg) throws Exception;
 
-    protected void doPushLogic(Serializable jsonObject) throws Exception {
+    protected void doPushLogicForJsonData(BaseJsonObjectReportRequest jsonObject) throws Exception {
         //默认不实现json格式的推送
+        logger.warn("{}#doPushLogicForJsonData,not support", this.getClass());
     }
 
 
@@ -43,6 +43,19 @@ public abstract class BaseErrorReporter {
         return () -> {
             try {
                 this.doPushLogic(throwable, errorMsg);
+            } catch (Exception e) {
+                logger.warn("ErrorReporter推送失败", e);
+            }
+        };
+    }
+
+    /**
+     * 报告异常到其他系统
+     */
+    public Runnable getRunnable(BaseJsonObjectReportRequest request) {
+        return () -> {
+            try {
+                this.doPushLogicForJsonData(request);
             } catch (Exception e) {
                 logger.warn("ErrorReporter推送失败", e);
             }

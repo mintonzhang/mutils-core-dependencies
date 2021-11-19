@@ -5,11 +5,9 @@ import cn.minsin.core.tools.log.common.LoggerConstant;
 import cn.minsin.core.tools.log.common.LoggerHelperConfig;
 import cn.minsin.core.tools.log.common.reporeies.BaseErrorReporter;
 import lombok.NonNull;
-import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.concurrent.ExecutorService;
 
 /**
@@ -35,17 +33,14 @@ public class LoggerTrackHelper {
 
     public static void error(Throwable throwable, String errorMessage) {
         logger.error(errorMessage, throwable);
-        List<BaseErrorReporter> reporter = DEFAULT_LOGGER_CONFIG.getBaseErrorReporters();
         ExecutorService executorService = DEFAULT_LOGGER_CONFIG.getExecutorService();
 
-        if (CollectionUtils.isNotEmpty(reporter)) {
-            for (BaseErrorReporter baseErrorReporter : reporter) {
-                if (executorService != null) {
-                    executorService.execute(baseErrorReporter.getRunnable(throwable, errorMessage));
-                } else {
-                    baseErrorReporter.getRunnable(throwable, errorMessage).run();
+        for (BaseErrorReporter baseErrorReporter : DEFAULT_LOGGER_CONFIG.getErrorReporters()) {
+            if (executorService != null) {
+                executorService.execute(baseErrorReporter.getRunnable(throwable, errorMessage));
+            } else {
+                baseErrorReporter.getRunnable(throwable, errorMessage).run();
 
-                }
             }
         }
     }

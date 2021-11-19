@@ -1,18 +1,15 @@
 package cn.minsin.core.tools.log.v3;
 
 import cn.minsin.core.tools.FormatStringUtil;
+import cn.minsin.core.tools.log.common.BaseJsonObjectReportRequest;
 import cn.minsin.core.tools.log.common.LoggerConstant;
 import cn.minsin.core.tools.log.common.LoggerHelperConfig;
 import cn.minsin.core.tools.log.common.reporeies.BaseErrorReporter;
 import lombok.Getter;
 import lombok.NonNull;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 
 /**
@@ -21,7 +18,6 @@ import java.util.concurrent.ExecutorService;
  */
 public class LoggerPusherHelper {
 
-    private final static ConcurrentHashMap<String, Logger> LOGGER_MAP = new ConcurrentHashMap<>();
     private static LoggerHelperConfig DEFAULT_LOGGER_CONFIG;
     private static boolean isSetDefaultConfig = false;
     @Getter
@@ -42,48 +38,29 @@ public class LoggerPusherHelper {
     }
 
 
-    public LoggerPusherHelper(String loggerName, LoggerHelperConfig loggerHelperConfig) {
-        this.logger = this.getLogger(loggerName);
+    public LoggerPusherHelper(Logger logger, @NonNull LoggerHelperConfig loggerHelperConfig) {
+        this.logger = logger;
         this.loggerHelperConfig = loggerHelperConfig;
     }
-
-    public static LoggerPusherHelper of(String loggerName) {
-        return new LoggerPusherHelper(loggerName, DEFAULT_LOGGER_CONFIG);
-    }
-
-    public static LoggerPusherHelper of(Enum<?> loggerEnum) {
-        return new LoggerPusherHelper(loggerEnum.name(), DEFAULT_LOGGER_CONFIG);
-    }
-
     //********************************分割线****************************************//
 
-    public static LoggerPusherHelper of(String loggerName, LoggerHelperConfig loggerHelperConfig) {
-        return new LoggerPusherHelper(loggerName, loggerHelperConfig);
-    }
+    public static LoggerPusherHelper of(Logger logger) {
 
-    public static LoggerPusherHelper of(Enum<?> loggerEnum, LoggerHelperConfig loggerHelperConfig) {
-        return new LoggerPusherHelper(loggerEnum.name(), loggerHelperConfig);
-    }
-
-    protected Logger createLogger(String loggerName) {
-        synchronized (LOGGER_MAP) {
-            return LoggerFactory.getLogger(loggerName);
-        }
-    }
-
-    public Logger getLogger(String loggerName) {
-        return LOGGER_MAP.computeIfAbsent(loggerName, k -> this.createLogger(loggerName));
+        return new LoggerPusherHelper(logger, DEFAULT_LOGGER_CONFIG);
     }
 
 
+    public static LoggerPusherHelper of(Logger logger, LoggerHelperConfig loggerHelperConfig) {
+        return new LoggerPusherHelper(logger, loggerHelperConfig);
+    }
     //********************************分割线****************************************//
+
 
     public void error(Throwable throwable, String errorMessage) {
         logger.error(errorMessage, throwable);
-        List<BaseErrorReporter> reporter = loggerHelperConfig.getBaseErrorReporters();
         ExecutorService executorService = loggerHelperConfig.getExecutorService();
 
-        for (BaseErrorReporter baseErrorReporter : reporter) {
+        for (BaseErrorReporter baseErrorReporter : loggerHelperConfig.getErrorReporters()) {
             if (executorService != null) {
                 executorService.execute(baseErrorReporter.getRunnable(throwable, errorMessage));
             } else {
@@ -100,8 +77,7 @@ public class LoggerPusherHelper {
 
     public void error(Throwable error, @NonNull String message, Object... param) {
         String msg = FormatStringUtil.format(message, param);
-        String stackMessage = loggerHelperConfig.getLoggerBodyFormatter().getErrorMessage(error, loggerHelperConfig);
-        error(error, stackMessage, msg + "\n" + error.getMessage());
+        error(error, msg + "\n" + error.getMessage());
     }
 
     public void error(@NonNull String message, Throwable error) {
@@ -167,15 +143,27 @@ public class LoggerPusherHelper {
     }
 
 
-    public void justReport(Serializable object) {
-//        ExecutorService executorService = loggerHelperConfig.getExecutorService();
-//        for (ErrorReporter errorReporter : loggerHelperConfig.getErrorReporters()) {
-//            if (executorService != null) {
-//                executorService.execute(errorReporter.getRunnable(throwable, errorMessage, errorStack));
-//            } else {
-//                errorReporter.getRunnable(throwable, errorMessage, errorStack).run();
-//
-//            }
-//        }
+    public void report(Throwable throwable, String errorMessage) {
+        ExecutorService executorService = loggerHelperConfig.getExecutorService();
+        for (BaseErrorReporter errorReporter : loggerHelperConfig.getErrorReporters()) {
+            if (executorService != null) {
+                executorService.execute(errorReporter.getRunnable(throwable, errorMessage));
+            } else {
+                errorReporter.getRunnable(throwable, errorMessage).run();
+
+            }
+        }
+    }
+
+    public void reportJson(BaseJsonObjectReportRequest jsonObject) {
+        ExecutorService executorService = loggerHelperConfig.getExecutorService();
+        for (BaseErrorReporter errorReporter : loggerHelperConfig.getErrorReporters()) {
+            if (executorService != null) {
+                executorService.execute(errorReporter.getRunnable(jsonObject));
+            } else {
+                errorReporter.getRunnable(jsonObject).run();
+
+            }
+        }
     }
 }

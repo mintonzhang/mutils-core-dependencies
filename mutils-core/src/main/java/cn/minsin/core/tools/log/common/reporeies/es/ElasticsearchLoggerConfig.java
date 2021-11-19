@@ -1,9 +1,10 @@
 package cn.minsin.core.tools.log.common.reporeies.es;
 
+import cn.minsin.core.tools.log.common.BaseJsonObjectReportRequest;
 import cn.minsin.core.tools.log.common.reporeies.es.authentication.Authentication;
-import cn.minsin.core.tools.log.common.reporeies.es.request.BaseSaveRequest;
 import lombok.Getter;
 import lombok.Setter;
+import org.slf4j.event.Level;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -40,21 +41,22 @@ public class ElasticsearchLoggerConfig implements Cloneable {
     /**
      * 正常index格式化函数
      */
-    private Function<String, String> indexNameNormalConvert = name -> name + "_" + profile;
+    private Function<String, String> indexNameNormalConvert = name -> name + "-" + profile;
 
     /**
      * 异常index格式化函数
      */
-    private Function<String, String> indexNameErrorConvert = name -> name + "_error_" + profile;
+    private Function<String, String> indexNameErrorConvert = name -> name + "-error-" + profile;
 
     /**
      * 格式化推送内容
      */
-    private BiFunction<Throwable, String, BaseSaveRequest> formatFunction = (e, errorMes) -> {
-        BaseSaveRequest baseSaveRequest = new BaseSaveRequest();
-        baseSaveRequest.parseErrorStack(e);
-        baseSaveRequest.setErrorMessage(errorMes);
-        return baseSaveRequest;
+    private BiFunction<Throwable, String, BaseJsonObjectReportRequest> formatFunction = (e, errorMes) -> {
+        BaseJsonObjectReportRequest baseJsonObjectReportRequest = new BaseJsonObjectReportRequest();
+        baseJsonObjectReportRequest.parseErrorStack(e);
+        baseJsonObjectReportRequest.setErrorMessage(errorMes);
+        baseJsonObjectReportRequest.setLevel(Level.ERROR);
+        return baseJsonObjectReportRequest;
     };
 
 

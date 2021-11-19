@@ -24,7 +24,7 @@ public class LoggerHelperConfig {
     @Setter
     private String currentProfile;
 
-    private final List<BaseErrorReporter> baseErrorReporters = new ArrayList<>(3);
+    private final List<BaseErrorReporter> errorReporters = new ArrayList<>(3);
     /**
      * 推送错误报告时所使用的的线程池 如果不设置则使用当前线程
      */
@@ -37,9 +37,9 @@ public class LoggerHelperConfig {
         this.executorService = executorService;
     }
 
-    public LoggerHelperConfig addErrorReport(BaseErrorReporter baseErrorReporter) {
-        baseErrorReporter.setLoggerHelperConfig(this);
-        baseErrorReporters.add(baseErrorReporter);
+    public LoggerHelperConfig addErrorReport(BaseErrorReporter errorReporter) {
+        errorReporter.setLoggerHelperConfig(this);
+        errorReporters.add(errorReporter);
         return this;
     }
 

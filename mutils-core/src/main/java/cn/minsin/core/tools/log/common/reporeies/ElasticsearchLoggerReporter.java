@@ -1,15 +1,14 @@
 package cn.minsin.core.tools.log.common.reporeies;
 
 import cn.minsin.core.tools.IOUtil;
+import cn.minsin.core.tools.log.common.BaseJsonObjectReportRequest;
 import cn.minsin.core.tools.log.common.reporeies.es.ElasticsearchLoggerConfig;
-import cn.minsin.core.tools.log.common.reporeies.es.request.BaseSaveRequest;
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;
 import lombok.Getter;
 
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.io.Serializable;
 import java.io.Writer;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -45,21 +44,25 @@ public class ElasticsearchLoggerReporter extends BaseErrorReporter {
     @Override
     protected void doPushLogic(Throwable throwable, String errorMsg) throws Exception {
 
-        BaseSaveRequest apply = elasticConfig.getFormatFunction().apply(throwable, errorMsg);
+        BaseJsonObjectReportRequest apply = elasticConfig.getFormatFunction().apply(throwable, errorMsg);
 
         String body = JSON.toJSONString(apply);
 
-        this.pushingToElastic(body);
+        this.pushingToElastic(body, throwable != null);
     }
-
 
     @Override
-    protected void doPushLogic(Serializable jsonObject) throws Exception {
-        this.pushingToElastic(JSON.toJSONString(jsonObject));
+    protected void doPushLogicForJsonData(BaseJsonObjectReportRequest jsonObject) throws Exception {
+        this.pushingToElastic(jsonObject.toJsonString(), false);
     }
 
-    protected void pushingToElastic(String jsonData) throws IOException {
-        String indexName = elasticConfig.getIndexNameErrorConvert().apply(elasticConfig.getIndexName());
+    protected void pushingToElastic(String jsonData, boolean isError) throws IOException {
+        String indexName;
+        if (isError) {
+            indexName = elasticConfig.getIndexNameErrorConvert().apply(elasticConfig.getIndexName());
+        } else {
+            indexName = elasticConfig.getIndexNameNormalConvert().apply(elasticConfig.getIndexName());
+        }
         URL url = this.createUrl(elasticConfig.getUrl(), indexName, elasticConfig.getIndexType());
         HttpURLConnection urlConnection = (HttpURLConnection) (url.openConnection());
         urlConnection.setDoInput(true);

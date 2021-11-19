@@ -1,4 +1,4 @@
-package cn.minsin.core.tools.log.common.reporeies.es.request;
+package cn.minsin.core.tools.log.common;
 
 import com.alibaba.fastjson.JSON;
 import lombok.Getter;
@@ -16,7 +16,7 @@ import java.time.format.DateTimeFormatter;
  */
 @Getter
 @Setter
-public class BaseSaveRequest {
+public class BaseJsonObjectReportRequest {
 
     protected static final DateTimeFormatter DATETIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss:SSS");
 
@@ -36,8 +36,10 @@ public class BaseSaveRequest {
 
 
     public void parseErrorStack(Throwable throwable) {
-        this.errorStackTrace = ExceptionUtils.getStackTrace(throwable);
-        this.errorMessage = throwable.getMessage();
+        if (throwable != null) {
+            this.errorStackTrace = ExceptionUtils.getStackTrace(throwable);
+            this.errorMessage = throwable.getMessage();
+        }
     }
 
     public String toJsonString() {
