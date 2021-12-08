@@ -71,23 +71,21 @@ public class LoggerPusherHelper {
 
 
     public void error(Throwable error) {
-        String stackMessage = loggerHelperConfig.getLoggerBodyFormatter().getErrorMessage(error, loggerHelperConfig);
-        error(error, stackMessage, error.getMessage());
+        this.error(error, error.getMessage());
     }
 
     public void error(Throwable error, @NonNull String message, Object... param) {
         String msg = FormatStringUtil.format(message, param);
-        error(error, msg + "\n" + error.getMessage());
+        this.error(error, msg);
     }
 
     public void error(@NonNull String message, Throwable error) {
-        String errorStack = loggerHelperConfig.getLoggerBodyFormatter().getErrorMessage(error, loggerHelperConfig);
-        error(error, errorStack, message);
+        this.error(error, message);
     }
 
     public void error(@NonNull String message, Object... param) {
         String msg = FormatStringUtil.format(message, param);
-        error(null, msg);
+        this.error(null, msg);
     }
 
 
