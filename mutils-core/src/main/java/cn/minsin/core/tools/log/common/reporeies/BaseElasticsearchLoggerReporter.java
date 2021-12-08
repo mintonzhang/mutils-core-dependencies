@@ -3,7 +3,6 @@ package cn.minsin.core.tools.log.common.reporeies;
 import cn.minsin.core.tools.IOUtil;
 import cn.minsin.core.tools.log.common.BaseJsonObjectReportRequest;
 import cn.minsin.core.tools.log.common.reporeies.es.ElasticsearchLoggerConfig;
-import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;
 import lombok.Getter;
 
@@ -21,12 +20,12 @@ import java.util.List;
  * @since 2021/7/20 10:22
  */
 @Getter
-public class ElasticsearchLoggerReporter extends BaseErrorReporter {
+public abstract class BaseElasticsearchLoggerReporter extends BaseErrorReporter {
 
     public static final List<Integer> SUCCESS_CODES = Lists.newArrayList(200, 201, 203);
     private final ElasticsearchLoggerConfig elasticConfig;
 
-    public ElasticsearchLoggerReporter(ElasticsearchLoggerConfig config) {
+    public BaseElasticsearchLoggerReporter(ElasticsearchLoggerConfig config) {
         this.elasticConfig = config;
     }
 
@@ -41,15 +40,6 @@ public class ElasticsearchLoggerReporter extends BaseErrorReporter {
 
     }
 
-    @Override
-    protected void doPushLogic(Throwable throwable, String errorMsg) throws Exception {
-
-        BaseJsonObjectReportRequest apply = elasticConfig.getFormatFunction().apply(throwable, errorMsg);
-
-        String body = JSON.toJSONString(apply);
-
-        this.pushingToElastic(body, throwable != null);
-    }
 
     @Override
     protected void doPushLogicForJsonData(BaseJsonObjectReportRequest jsonObject) throws Exception {

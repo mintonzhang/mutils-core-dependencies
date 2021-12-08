@@ -6,6 +6,9 @@ import cn.minsin.core.tools.log.common.LoggerHelperConfig;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 
+import java.util.Optional;
+import java.util.function.Supplier;
+
 /**
  * @author minton.zhang
  * @since 2021/11/8 10:28
@@ -15,13 +18,23 @@ public abstract class BaseErrorReporter {
 
     protected Logger logger;
 
+    protected boolean isDisable = false;
+
 
     public void setLoggerHelperConfig(LoggerHelperConfig logHelperConfig) {
         this.logHelperConfig = logHelperConfig;
         this.logger = logHelperConfig.getLogger();
     }
 
-    protected abstract void doPushLogic(Throwable throwable, String errorMsg) throws Exception;
+    public boolean isDisable() {
+        return isDisable;
+    }
+
+    public void setDisable(boolean disable) {
+        isDisable = disable;
+    }
+
+    protected abstract void doPushLogic(Object currentSessionInfo, Throwable throwable, String errorMsg) throws Exception;
 
     protected void doPushLogicForJsonData(BaseJsonObjectReportRequest jsonObject) throws Exception {
         //默认不实现json格式的推送
@@ -39,9 +52,10 @@ public abstract class BaseErrorReporter {
      * 报告异常到其他系统
      */
     public Runnable getRunnable(Throwable throwable, String errorMsg) {
+        Object session = Optional.ofNullable(logHelperConfig.getCurrentSessionSupplier()).map(Supplier::get).orElse(null);
         return () -> {
             try {
-                this.doPushLogic(throwable, errorMsg);
+                this.doPushLogic(session, throwable, errorMsg);
             } catch (Exception e) {
                 logger.warn("ErrorReporter推送失败", e);
             }

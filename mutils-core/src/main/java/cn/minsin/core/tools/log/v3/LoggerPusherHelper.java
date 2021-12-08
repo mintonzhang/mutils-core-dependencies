@@ -61,6 +61,9 @@ public class LoggerPusherHelper {
         ExecutorService executorService = loggerHelperConfig.getExecutorService();
 
         for (BaseErrorReporter baseErrorReporter : loggerHelperConfig.getErrorReporters()) {
+            if (baseErrorReporter.isDisable()) {
+                continue;
+            }
             if (executorService != null) {
                 executorService.execute(baseErrorReporter.getRunnable(throwable, errorMessage));
             } else {
@@ -144,6 +147,9 @@ public class LoggerPusherHelper {
     public void report(Throwable throwable, String errorMessage) {
         ExecutorService executorService = loggerHelperConfig.getExecutorService();
         for (BaseErrorReporter errorReporter : loggerHelperConfig.getErrorReporters()) {
+            if (errorReporter.isDisable()) {
+                continue;
+            }
             if (executorService != null) {
                 executorService.execute(errorReporter.getRunnable(throwable, errorMessage));
             } else {
@@ -156,6 +162,9 @@ public class LoggerPusherHelper {
     public void reportJson(BaseJsonObjectReportRequest jsonObject) {
         ExecutorService executorService = loggerHelperConfig.getExecutorService();
         for (BaseErrorReporter errorReporter : loggerHelperConfig.getErrorReporters()) {
+            if (errorReporter.isDisable()) {
+                continue;
+            }
             if (executorService != null) {
                 executorService.execute(errorReporter.getRunnable(jsonObject));
             } else {

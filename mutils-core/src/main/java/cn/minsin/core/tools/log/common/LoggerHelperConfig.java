@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
+import java.util.function.Supplier;
 
 /**
  * @author minton.zhang
@@ -31,6 +32,13 @@ public class LoggerHelperConfig {
     private final ExecutorService executorService;
     @Setter
     private BaseLoggerBodyFormatter loggerBodyFormatter = new DefaultLoggerBodyFormatter();
+
+    /**
+     * 当前用户session信息工厂
+     */
+    @Setter
+    private Supplier<Object> currentSessionSupplier;
+
 
     public LoggerHelperConfig(Logger logger, ExecutorService executorService) {
         this.logger = logger;
