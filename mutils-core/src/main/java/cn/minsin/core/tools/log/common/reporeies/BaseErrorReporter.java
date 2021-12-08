@@ -25,7 +25,6 @@ public abstract class BaseErrorReporter {
 
     protected void doPushLogicForJsonData(BaseJsonObjectReportRequest jsonObject) throws Exception {
         //默认不实现json格式的推送
-        logger.warn("{}#doPushLogicForJsonData,not support", this.getClass());
     }
 
 
