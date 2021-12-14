@@ -35,6 +35,7 @@ public abstract class BaseExceptionHandlerDispatcher<T> {
 
     {
         this.initHandler();
+        this.initNotErrorClasses();
         NOT_ERROR_CLASSES.add(BusinessException.class);
         //NOT_ERROR_CLASSES.add(AuthorizationRefuseException.class);
         //NOT_ERROR_CLASSES.add(AuthorizationInvalidException.class);
@@ -102,10 +103,7 @@ public abstract class BaseExceptionHandlerDispatcher<T> {
 
     protected abstract void initHandler();
 
-    protected abstract void addNotErrorClass(Class<? extends Throwable> clazz);
-
-    protected abstract void addNotErrorClasses(Set<Class<? extends Throwable>> clazz);
-
+    protected abstract void initNotErrorClasses();
 
     protected abstract void log(Throwable e, boolean error);
 
