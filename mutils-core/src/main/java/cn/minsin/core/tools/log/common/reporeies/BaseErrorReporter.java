@@ -18,21 +18,17 @@ public abstract class BaseErrorReporter {
 
     protected Logger logger;
 
-    protected boolean isDisable = false;
-
 
     public void setLoggerHelperConfig(LoggerHelperConfig logHelperConfig) {
         this.logHelperConfig = logHelperConfig;
         this.logger = logHelperConfig.getLogger();
     }
 
-    public boolean isDisable() {
-        return isDisable;
-    }
 
-    public void setDisable(boolean disable) {
-        isDisable = disable;
-    }
+    /**
+     * 关闭推送的开关
+     */
+    public abstract boolean isDisable();
 
     protected abstract void doPushLogic(Object currentSessionInfo, Throwable throwable, String errorMsg) throws Exception;
 
