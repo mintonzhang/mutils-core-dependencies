@@ -1,9 +1,8 @@
 package cn.minsin.core.web.controller_advice;
 
 import cn.minsin.core.tools.function.FunctionalInterfaceUtil;
+import cn.minsin.core.tools.log.v3.GlobalDefaultLogger;
 import cn.minsin.core.web.exception.BusinessException;
-import lombok.EqualsAndHashCode;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -30,32 +29,10 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.function.Function;
 
-public abstract class BaseExceptionHandlerDispatcher<T> {
+public abstract class BaseExceptionHandlerDispatcher<T> implements GlobalDefaultLogger {
 
     private final Map<Class<?>, Function<Throwable, ResponseEntity<T>>> HANDLERS = new ConcurrentHashMap<>();
     private final Set<Class<?>> NOT_ERROR_CLASSES = new CopyOnWriteArraySet<>();
-
-
-    {
-        this.initHandler();
-        NOT_ERROR_CLASSES.addAll(this.initNotErrorClasses());
-
-        NOT_ERROR_CLASSES.add(BusinessException.class);
-        //NOT_ERROR_CLASSES.add(AuthorizationRefuseException.class);
-        //NOT_ERROR_CLASSES.add(AuthorizationInvalidException.class);
-        NOT_ERROR_CLASSES.add(MethodArgumentNotValidException.class);
-        NOT_ERROR_CLASSES.add(MethodArgumentConversionNotSupportedException.class);
-        NOT_ERROR_CLASSES.add(HttpRequestMethodNotSupportedException.class);
-        NOT_ERROR_CLASSES.add(MethodArgumentTypeMismatchException.class);
-        NOT_ERROR_CLASSES.add(BindException.class);
-        NOT_ERROR_CLASSES.add(HttpMessageNotReadableException.class);
-        //NOT_ERROR_CLASSES.add(RateAccessLimitException.class);
-        NOT_ERROR_CLASSES.add(HttpMediaTypeException.class);
-        NOT_ERROR_CLASSES.add(HttpMediaTypeNotAcceptableException.class);
-        NOT_ERROR_CLASSES.add(HttpMediaTypeNotSupportedException.class);
-        NOT_ERROR_CLASSES.add(HttpSessionRequiredException.class);
-
-    }
 
 
     @ExceptionHandler(Throwable.class)
@@ -95,12 +72,37 @@ public abstract class BaseExceptionHandlerDispatcher<T> {
      */
     protected abstract ResponseEntity<T> whenHandlerError(Throwable e, boolean matchedButHasException);
 
+    /**
+     * 注册异常处理器
+     *
+     * @param registrar 注册器
+     */
+    protected void addExceptionHandler(ExceptionHandlerRegistrar registrar) {
 
-    protected abstract void initHandler();
-
-    protected HandlerBuilder createHandlerBuilder(Function<Throwable, ResponseEntity<T>> function) {
-        return new HandlerBuilder(function);
     }
+
+    /**
+     * 注册非异常的exception
+     *
+     * @param registrar 注册器
+     */
+    protected void addNotExceptionClasses(NotExceptionClassRegistrar registrar) {
+        registrar.apply(BusinessException.class);
+        //NOT_ERROR_CLASSES.add(AuthorizationRefuseException.class);
+        //NOT_ERROR_CLASSES.add(AuthorizationInvalidException.class);
+        registrar.apply(MethodArgumentNotValidException.class);
+        registrar.apply(MethodArgumentConversionNotSupportedException.class);
+        registrar.apply(HttpRequestMethodNotSupportedException.class);
+        registrar.apply(MethodArgumentTypeMismatchException.class);
+        registrar.apply(BindException.class);
+        registrar.apply(HttpMessageNotReadableException.class);
+        //registrar.apply(RateAccessLimitException.class);
+        registrar.apply(HttpMediaTypeException.class);
+        registrar.apply(HttpMediaTypeNotAcceptableException.class);
+        registrar.apply(HttpMediaTypeNotSupportedException.class);
+        registrar.apply(HttpSessionRequiredException.class);
+    }
+
 
     protected abstract Set<Class<? extends Throwable>> initNotErrorClasses();
 
@@ -123,22 +125,38 @@ public abstract class BaseExceptionHandlerDispatcher<T> {
     }
 
 
-    @EqualsAndHashCode
-    @RequiredArgsConstructor
-    protected class HandlerBuilder {
-        private final Function<Throwable, ResponseEntity<T>> function;
+    protected class ExceptionHandlerRegistrar {
+        private Function<Throwable, ResponseEntity<T>> function;
 
+        public ExceptionHandlerRegistrar create(Function<Throwable, ResponseEntity<T>> function) {
+            this.function = function;
+            return this;
+        }
 
         /**
          * 添加到处理器中
          */
-        public HandlerBuilder apply(Class<?>... clazz) {
+        public void apply(Class<?>... clazz) {
             for (Class<?> aClass : clazz) {
                 if (Throwable.class.isAssignableFrom(aClass)) {
                     HANDLERS.put(aClass, function);
                 }
             }
-            return this;
+        }
+    }
+
+
+    protected class NotExceptionClassRegistrar {
+
+        /**
+         * 添加到处理器中
+         */
+        public void apply(Class<?>... clazz) {
+            for (Class<?> aClass : clazz) {
+                if (Throwable.class.isAssignableFrom(aClass)) {
+                    NOT_ERROR_CLASSES.add(aClass);
+                }
+            }
         }
     }
 }
