@@ -29,40 +29,37 @@ public abstract class BaseMvcExceptionHandlerDispatcher extends BaseExceptionHan
     protected void initHandler() {
 
 
-        super.addHandler(e -> ResponseEntity.ok(Result.fail(e.getMessage())), BusinessException.class);
-        super.addHandler(
+        super.createHandlerBuilder(e -> ResponseEntity.ok(Result.fail(e.getMessage()))).apply(BusinessException.class);
+        super.createHandlerBuilder(
                 e -> {
                     HttpRequestMethodNotSupportedException exception = (HttpRequestMethodNotSupportedException) e;
                     String format = FormatStringUtil.format("该接口不支持'{}'的请求方式,仅支持:'{}'", exception.getMethod(), exception.getSupportedMethods());
                     return ResponseEntity.ok(Result.fail(format));
-                }, HttpRequestMethodNotSupportedException.class
-        );
-        super.addHandler(
+                }).apply(HttpRequestMethodNotSupportedException.class);
+        super.createHandlerBuilder(
                 e -> {
                     MethodArgumentNotValidException exception = (MethodArgumentNotValidException) e;
-
                     String field = exception.getBindingResult().getFieldError().getField();
                     String errorMsg = String.format("参数'%s'校验失败,请检查后重试", field);
                     return ResponseEntity.ok(Result.fail(errorMsg));
-                }, MethodArgumentNotValidException.class
-        );
-        super.addHandler(
+                }).apply(MethodArgumentNotValidException.class);
+        super.createHandlerBuilder(
                 e -> {
                     BindException exception = (BindException) e;
-
                     String field = exception.getBindingResult().getFieldError().getField();
                     String errorMsg = String.format("参数'%s'校验失败,请检查后重试", field);
                     return ResponseEntity.ok(Result.fail(errorMsg));
-                }, BindException.class
-        );
+                }
+        ).apply(BindException.class);
 
-        super.addHandler(e -> ResponseEntity.ok(Result.fail("RequestBody缺少、参数类型有误或枚举错误")), HttpMessageNotReadableException.class);
-        super.addHandler(e -> ResponseEntity.ok(Result.fail("请求参数与文档的不一致,导致转换异常")), HttpMessageConversionException.class);
-        super.addHandler(e -> ResponseEntity.ok(Result.fail(e.getMessage())), HttpMediaTypeNotSupportedException.class);
-        super.addHandler(e -> ResponseEntity.ok(Result.fail("'" + ((MethodArgumentTypeMismatchException) e).getName() + "'类型有误,请检查后重试")), MethodArgumentTypeMismatchException.class);
-        super.addHandler(e -> ResponseEntity.ok(Result.fail("缺少必传参数")), MissingServletRequestPartException.class);
-        super.addHandler(e -> ResponseEntity.ok(Result.fail("参数类型处理异常")), UnexpectedTypeException.class);
-        super.addHandler(e -> ResponseEntity.ok(Result.fail(e.getMessage())), ValidationException.class);
-        super.addHandler(e -> ResponseEntity.ok(Result.fail(String.format("参数'%s',类型异常", ((MethodArgumentConversionNotSupportedException) e).getName()))), MethodArgumentConversionNotSupportedException.class);
+        super.createHandlerBuilder(e -> ResponseEntity.ok(Result.fail("RequestBody缺少、参数类型有误或枚举错误"))).apply(HttpMessageNotReadableException.class);
+        super.createHandlerBuilder(e -> ResponseEntity.ok(Result.fail("请求参数与文档的不一致,导致转换异常"))).apply(HttpMessageConversionException.class);
+        super.createHandlerBuilder(e -> ResponseEntity.ok(Result.fail(e.getMessage()))).apply(HttpMediaTypeNotSupportedException.class);
+        super.createHandlerBuilder(e -> ResponseEntity.ok(Result.fail("'" + ((MethodArgumentTypeMismatchException) e).getName() + "'类型有误,请检查后重试"))).apply(MethodArgumentTypeMismatchException.class);
+        super.createHandlerBuilder(e -> ResponseEntity.ok(Result.fail("缺少必传参数"))).apply(MissingServletRequestPartException.class);
+        super.createHandlerBuilder(e -> ResponseEntity.ok(Result.fail("参数类型处理异常"))).apply(UnexpectedTypeException.class);
+        super.createHandlerBuilder(e -> ResponseEntity.ok(Result.fail(e.getMessage()))).apply(ValidationException.class);
+        super.createHandlerBuilder(e -> ResponseEntity.ok(Result.fail(String.format("参数'%s',类型异常", ((MethodArgumentConversionNotSupportedException) e).getName()))))
+                .apply(MethodArgumentConversionNotSupportedException.class);
     }
 }

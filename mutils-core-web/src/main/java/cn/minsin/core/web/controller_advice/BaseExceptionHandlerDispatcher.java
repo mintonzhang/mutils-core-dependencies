@@ -1,6 +1,9 @@
 package cn.minsin.core.web.controller_advice;
 
+import cn.minsin.core.tools.function.FunctionalInterfaceUtil;
 import cn.minsin.core.web.exception.BusinessException;
+import lombok.EqualsAndHashCode;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -20,22 +23,23 @@ import javax.servlet.http.HttpServletResponse;
 import java.net.BindException;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.function.Function;
 
 public abstract class BaseExceptionHandlerDispatcher<T> {
 
     private final Map<Class<?>, Function<Throwable, ResponseEntity<T>>> HANDLERS = new ConcurrentHashMap<>();
-    private final Set<Class<?>> NOT_ERROR_CLASSES = new HashSet<>();
+    private final Set<Class<?>> NOT_ERROR_CLASSES = new CopyOnWriteArraySet<>();
 
 
     {
         this.initHandler();
-        this.initNotErrorClasses();
+        NOT_ERROR_CLASSES.addAll(this.initNotErrorClasses());
+
         NOT_ERROR_CLASSES.add(BusinessException.class);
         //NOT_ERROR_CLASSES.add(AuthorizationRefuseException.class);
         //NOT_ERROR_CLASSES.add(AuthorizationInvalidException.class);
@@ -57,7 +61,9 @@ public abstract class BaseExceptionHandlerDispatcher<T> {
     @ExceptionHandler(Throwable.class)
     @ResponseBody
     public ResponseEntity<T> exception(Throwable throwable, HttpServletRequest request, HttpServletResponse response) {
-        this.log(throwable, !NOT_ERROR_CLASSES.contains(throwable.getClass()));
+
+        boolean flag = FunctionalInterfaceUtil.containsAny(NOT_ERROR_CLASSES, w -> w.isInstance(throwable));
+        this.log(throwable, !flag);
 
         List<Class<?>> allSuperClass = this.getAllSuperClass(throwable);
         //匹配最佳
@@ -73,17 +79,6 @@ public abstract class BaseExceptionHandlerDispatcher<T> {
                     }
                 })
                 .orElse(this.whenHandlerError(throwable, false));
-    }
-
-
-    protected final void addHandler(Function<Throwable, ResponseEntity<T>> function, Class<?>... clazzArray) {
-
-        for (Class<?> clazz : clazzArray) {
-            //只添加异常的子类
-            if (Throwable.class.isAssignableFrom(clazz)) {
-                HANDLERS.put(clazz, function);
-            }
-        }
     }
 
     protected ResponseEntity<T> newInstance(T data, HttpStatus httpStatus) {
@@ -103,7 +98,12 @@ public abstract class BaseExceptionHandlerDispatcher<T> {
 
     protected abstract void initHandler();
 
-    protected abstract void initNotErrorClasses();
+    protected HandlerBuilder createHandlerBuilder(Function<Throwable, ResponseEntity<T>> function) {
+        return new HandlerBuilder(function);
+    }
+
+    protected abstract Set<Class<? extends Throwable>> initNotErrorClasses();
+
 
     protected abstract void log(Throwable e, boolean error);
 
@@ -120,5 +120,25 @@ public abstract class BaseExceptionHandlerDispatcher<T> {
             superClass = superClass.getSuperclass();
         }
         return list;
+    }
+
+
+    @EqualsAndHashCode
+    @RequiredArgsConstructor
+    protected class HandlerBuilder {
+        private final Function<Throwable, ResponseEntity<T>> function;
+
+
+        /**
+         * 添加到处理器中
+         */
+        public HandlerBuilder apply(Class<?>... clazz) {
+            for (Class<?> aClass : clazz) {
+                if (Throwable.class.isAssignableFrom(aClass)) {
+                    HANDLERS.put(aClass, function);
+                }
+            }
+            return this;
+        }
     }
 }
