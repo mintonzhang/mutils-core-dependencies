@@ -100,6 +100,10 @@ public class LoggerPusherHelper {
         logger.warn(message, param);
     }
 
+    public void warn(Throwable param) {
+        logger.warn("warning", param);
+    }
+
     /**
      * 记录轨迹日志 自定义方法 实际是debug
      */

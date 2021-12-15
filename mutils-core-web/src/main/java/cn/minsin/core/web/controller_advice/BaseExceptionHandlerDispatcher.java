@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.net.BindException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -34,6 +35,18 @@ public abstract class BaseExceptionHandlerDispatcher<T> implements GlobalDefault
     private final Map<Class<?>, Function<Throwable, ResponseEntity<T>>> HANDLERS = new ConcurrentHashMap<>();
     private final Set<Class<?>> NOT_ERROR_CLASSES = new CopyOnWriteArraySet<>();
 
+    {
+        this.addExceptionHandler(new ExceptionHandlerRegistrar());
+        this.addNotExceptionClasses(new NotExceptionClassRegistrar());
+    }
+
+    public Map<Class<?>, Function<Throwable, ResponseEntity<T>>> getHandlers() {
+        return Collections.unmodifiableMap(HANDLERS);
+    }
+
+    public Set<Class<?>> getNotErrorClasses() {
+        return Collections.unmodifiableSet(NOT_ERROR_CLASSES);
+    }
 
     @ExceptionHandler(Throwable.class)
     @ResponseBody
@@ -102,10 +115,6 @@ public abstract class BaseExceptionHandlerDispatcher<T> implements GlobalDefault
         registrar.apply(HttpMediaTypeNotSupportedException.class);
         registrar.apply(HttpSessionRequiredException.class);
     }
-
-
-    protected abstract Set<Class<? extends Throwable>> initNotErrorClasses();
-
 
     protected abstract void log(Throwable e, boolean error);
 
