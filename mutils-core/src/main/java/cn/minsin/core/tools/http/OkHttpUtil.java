@@ -1,7 +1,7 @@
 package cn.minsin.core.tools.http;
 
 import cn.minsin.core.tools.IOUtil;
-import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson2.JSON;
 import lombok.NonNull;
 import okhttp3.Call;
 import okhttp3.Callback;

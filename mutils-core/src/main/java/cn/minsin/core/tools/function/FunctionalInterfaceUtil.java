@@ -2,8 +2,12 @@ package cn.minsin.core.tools.function;
 
 import cn.minsin.core.tools.StringUtil;
 import cn.minsin.core.tools._assert.CA;
+import lombok.NonNull;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -83,8 +87,8 @@ public interface FunctionalInterfaceUtil {
      * @param source   源Collection
      * @param function 转换函数
      */
-    static <R, S> Set<R> convertSet(Collection<S> source, Function<S, R> function) {
-        return map(source, function, Collectors.toSet());
+    static <R, S> Set<R> convertSet(@NonNull Collection<S> source, Function<S, R> function) {
+        return convertSet(source, function, true);
     }
 
 
@@ -94,8 +98,45 @@ public interface FunctionalInterfaceUtil {
      * @param source   源Collection
      * @param function 转换函数
      */
-    static <R, S> List<R> convertList(Collection<S> source, Function<S, R> function) {
-        return map(source, function, Collectors.toList());
+    static <R, S> List<R> convertList(@NonNull Collection<S> source, Function<S, R> function) {
+        return convertList(source, function, true);
+    }
+
+    /**
+     * 转换成Set
+     *
+     * @param source   源Collection
+     * @param function 转换函数
+     */
+    static <R, S> Set<R> convertSet(@NonNull Collection<S> source, Function<S, R> function, boolean skipNull) {
+        HashSet<R> set = new HashSet<>(source.size());
+        for (S data : source) {
+            R apply = function.apply(data);
+            if (apply == null && skipNull) {
+                continue;
+            }
+            set.add(apply);
+        }
+        return set;
+    }
+
+
+    /**
+     * 转换成List
+     *
+     * @param source   源Collection
+     * @param function 转换函数
+     */
+    static <R, S> List<R> convertList(@NonNull Collection<S> source, Function<S, R> function, boolean skipNull) {
+        ArrayList<R> set = new ArrayList<>(source.size());
+        for (S data : source) {
+            R apply = function.apply(data);
+            if (apply == null && skipNull) {
+                continue;
+            }
+            set.add(apply);
+        }
+        return set;
     }
 
     /**
@@ -231,6 +272,80 @@ public interface FunctionalInterfaceUtil {
      */
     static <S, K, V> Map<K, List<V>> groupToConcurrentMap(Collection<S> source, Function<S, K> keyFunction, Function<S, V> valueFunction) {
         return source.stream().collect(Collectors.groupingByConcurrent(keyFunction, Collectors.mapping(valueFunction, Collectors.toList())));
+    }
+
+    /**
+     * 分组
+     *
+     * @param source        源对象
+     * @param keyFunction   key函数
+     * @param valueFunction value函数
+     */
+    static <S, K, V> Map<K, V> toMap(Collection<S> source, Function<S, K> keyFunction, Function<S, V> valueFunction) {
+        return toMap(source, keyFunction, valueFunction, new HashMap<>(source.size()));
+    }
+
+    /**
+     * 分组
+     *
+     * @param source        源对象
+     * @param keyFunction   key函数
+     * @param valueFunction value函数
+     */
+    static <S, K, V> Map<K, V> toMap(Collection<S> source, Function<S, K> keyFunction, Function<S, V> valueFunction, Map<K, V> container) {
+        for (S item : source) {
+            container.put(keyFunction.apply(item), valueFunction.apply(item));
+        }
+        return container;
+    }
+
+    /**
+     * 分组
+     *
+     * @param source        源对象
+     * @param keyFunction   key函数
+     * @param valueFunction value函数
+     */
+    static <S, K, V> Map<K, V> toMap(S[] source, Function<S, K> keyFunction, Function<S, V> valueFunction) {
+        return toMap(source, keyFunction, valueFunction, new HashMap<>(source.length));
+    }
+
+
+    /**
+     * 分组
+     *
+     * @param source        源对象
+     * @param keyFunction   key函数
+     * @param valueFunction value函数
+     */
+    static <S, K, V> Map<K, V> toMap(S[] source, Function<S, K> keyFunction, Function<S, V> valueFunction, Map<K, V> container) {
+        for (S item : source) {
+            container.put(keyFunction.apply(item), valueFunction.apply(item));
+        }
+        return container;
+    }
+
+
+    /**
+     * 分组
+     *
+     * @param source        源对象
+     * @param keyFunction   key函数
+     * @param valueFunction value函数
+     */
+    static <S, K, V> Map<K, V> toMap(Stream<S> source, Function<S, K> keyFunction, Function<S, V> valueFunction, Map<K, V> container) {
+        return source.collect(Collectors.toMap(keyFunction, valueFunction, (a, b) -> b, () -> container));
+    }
+
+    /**
+     * 分组
+     *
+     * @param source        源对象
+     * @param keyFunction   key函数
+     * @param valueFunction value函数
+     */
+    static <S, K, V> Map<K, V> toMap(Stream<S> source, Function<S, K> keyFunction, Function<S, V> valueFunction) {
+        return toMap(source, keyFunction, valueFunction, new HashMap<>());
     }
 
     /**

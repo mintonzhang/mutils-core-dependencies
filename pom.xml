@@ -58,21 +58,40 @@
         </repository>
     </distributionManagement>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.22</version>
+        </dependency>
+    </dependencies>
 
     <build>
         <defaultGoal>compile</defaultGoal>
+
         <resources>
             <resource>
-                <directory>src/main/resource</directory>
-                <targetPath>META-INF/</targetPath>
-            </resource>
-            <resource>
-                <directory>src/main/resources</directory>
+                <directory>src/main/java</directory>
                 <includes>
-                    <include>META-INF/*</include>
+                    <include>**/*.sql</include>
+                    <include>**/*.xml</include>
+                    <include>**/*.md</include>
                 </includes>
             </resource>
         </resources>
+
+        <!--        <resources>-->
+        <!--            <resource>-->
+        <!--                <directory>src/main/resource</directory>-->
+        <!--                <targetPath>META-INF/</targetPath>-->
+        <!--            </resource>-->
+        <!--            <resource>-->
+        <!--                <directory>src/main/resources</directory>-->
+        <!--                <includes>-->
+        <!--                    <include>META-INF/*</include>-->
+        <!--                </includes>-->
+        <!--            </resource>-->
+        <!--        </resources>-->
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

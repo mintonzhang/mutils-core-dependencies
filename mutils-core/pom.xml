@@ -17,14 +17,16 @@
     </description>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <fastjson.version>1.2.75</fastjson.version>
+        <fastjson.version>1.2.83</fastjson.version>
+        <fastjson2.version>2.0.7</fastjson2.version>
         <guava.version>29.0-jre</guava.version>
         <slf4j.version>1.7.30</slf4j.version>
         <common.lang.version>3.10</common.lang.version>
         <httpclient.version>4.5.12</httpclient.version>
-        <lombok.version>1.18.16</lombok.version>
+        <!--        <lombok.version>1.18.22</lombok.version>-->
         <joda.time.version>2.10.6</joda.time.version>
         <commons-collections4.version>4.4</commons-collections4.version>
+        <enjoy.version>5.0.0</enjoy.version>
     </properties>
     <dependencies>
         <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
@@ -43,6 +45,11 @@
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
             <version>${fastjson.version}</version>
+        </dependency>        <!-- https://mvnrepository.com/artifact/com.alibaba/fastjson -->
+        <dependency>
+            <groupId>com.alibaba.fastjson2</groupId>
+            <artifactId>fastjson2</artifactId>
+            <version>${fastjson2.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
@@ -50,11 +57,7 @@
             <version>${httpclient.version}</version>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>${lombok.version}</version>
-        </dependency>
+
         <!-- https://mvnrepository.com/artifact/joda-time/joda-time -->
         <dependency>
             <groupId>joda-time</groupId>
@@ -108,6 +111,7 @@
             <version>2.9.10</version>
             <scope>provided</scope>
         </dependency>
+
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>
@@ -122,6 +126,29 @@
             <version>2.6.1</version>
             <scope>provided</scope>
         </dependency>
+
+        <!--模板引擎 https://jfinal.com/doc/6-1-->
+        <dependency>
+            <groupId>com.jfinal</groupId>
+            <artifactId>enjoy</artifactId>
+            <version>${enjoy.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>5.3.21</version>
+            <scope>provided</scope>
+        </dependency>
+
+
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-common</artifactId>
+            <version>4.1.75.Final</version>
+            <scope>provided</scope>
+        </dependency>
+
 
     </dependencies>
 </project>

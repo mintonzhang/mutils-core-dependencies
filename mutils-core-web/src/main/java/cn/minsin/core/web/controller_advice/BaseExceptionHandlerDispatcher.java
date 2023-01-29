@@ -1,7 +1,7 @@
 package cn.minsin.core.web.controller_advice;
 
 import cn.minsin.core.tools.function.FunctionalInterfaceUtil;
-import cn.minsin.core.tools.log.v3.GlobalDefaultLogger;
+import cn.minsin.core.tools.log.GlobalDefaultLogger;
 import cn.minsin.core.web.exception.BusinessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -1,6 +1,6 @@
 package cn.minsin.core.tools;
 
-import com.alibaba.fastjson.util.IOUtils;
+import com.alibaba.fastjson2.util.IOUtils;
 import lombok.NonNull;
 
 import java.io.ByteArrayInputStream;

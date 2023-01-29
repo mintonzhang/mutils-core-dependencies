@@ -1,6 +1,6 @@
 package cn.minsin.core.override;
 
-        import com.alibaba.fastjson.JSON;
+        import com.alibaba.fastjson2.JSON;
 
 /**
  * 继承或实现该接口，将提供toJsonString方法

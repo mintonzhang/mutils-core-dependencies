@@ -66,6 +66,13 @@ public abstract class CA {
     }
 
     /**
+     * 通常来说不建议这样使用 因为不管是true还是false都会创建这个异常对象
+     */
+    public static void throwDefaultException(String msg, Object... param) {
+        throw CA.createDefaultInstance(format(msg, param));
+    }
+
+    /**
      * 如果object是null,则抛出默认异常
      *
      * @param object
@@ -126,6 +133,7 @@ public abstract class CA {
         }
     }
 
+
     /**
      * 通常来说不建议这样使用 因为不管是true还是false都会创建这个异常对象
      */
@@ -155,8 +163,8 @@ public abstract class CA {
     /**
      * 初始化默认异常
      */
-    public static RuntimeException createDefaultInstance(String message) {
-        return createInstance(defaultException, message);
+    public static RuntimeException createDefaultInstance(String message, Object... param) {
+        return createInstance(defaultException, format(message, param));
     }
 
 

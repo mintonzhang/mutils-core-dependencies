@@ -3,7 +3,7 @@ package cn.minsin.core.web.result;
 import cn.minsin.core.constant.SuppressWarningsTypeConstant;
 import cn.minsin.core.exception.MutilsException;
 import cn.minsin.core.override.JsonModel;
-import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson2.JSON;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -90,8 +90,8 @@ public class Result<T> extends JsonModel implements Serializable {
     /**
      * code 来自Result中的 SUCCESS 或 EXCEPTION
      */
-    public static <T> Result<T> notFound() {
-        return new Result<T>().setResultOptions(DefaultResultOptions.NOT_FOUND);
+    public static <T> Result<T> notFound(String... msg) {
+        return builder(DefaultResultOptions.NOT_FOUND, msg);
     }
 
     /**
@@ -123,6 +123,15 @@ public class Result<T> extends JsonModel implements Serializable {
      */
     public static <T> Result<T> fail(String... msg) {
         return builder(DefaultResultOptions.DO_FAILED, msg);
+    }
+
+    /**
+     * 构建限流消息
+     *
+     * @param msg this default is '请求太频繁'
+     */
+    public static <T> Result<T> rateLimit(String... msg) {
+        return builder(DefaultResultOptions.TOO_MANY_REQUESTS, msg);
     }
 
     /**

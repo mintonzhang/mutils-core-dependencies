@@ -1,4 +1,5 @@
-package cn.minsin.core.tools.log.common;
+package cn.minsin.core.tools.log;
+
 
 import cn.minsin.core.tools.SystemUtil;
 

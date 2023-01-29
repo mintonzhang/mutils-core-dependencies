@@ -2,7 +2,7 @@ package cn.minsin.core.web.table;
 
 import cn.minsin.core.exception.MutilsException;
 import cn.minsin.core.web.annotation.Th;
-import com.alibaba.fastjson.annotation.JSONCreator;
+import com.alibaba.fastjson2.annotation.JSONCreator;
 import lombok.AccessLevel;
 import lombok.Getter;
 

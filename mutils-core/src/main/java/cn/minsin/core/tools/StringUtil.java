@@ -238,7 +238,10 @@ public class StringUtil extends StringUtils {
      * @param source 如果为空返回null
      */
     public static String pickUpChinese(String source) {
-        return StringUtil.replaceAll(source, "[^\u4e00-\u9fa5]+", "");
+        if (StringUtil.isNotBlank(source)) {
+            return source.replaceAll("[^\u4e00-\u9fa5]+", "");
+        }
+        return source;
     }
 
 
